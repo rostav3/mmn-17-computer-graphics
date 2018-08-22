@@ -22,6 +22,7 @@ public:
     void setTailRightAndLeft(bool val);
     void setHeadUpAndDown(bool val);
     void setHeadRightAndLeft(bool val);
+    void setMoveTopRightLeg(bool val);
 };
 
 

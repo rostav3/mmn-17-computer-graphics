@@ -134,3 +134,6 @@ void Dog::setHeadUpAndDown(bool val){
 void Dog::setHeadRightAndLeft(bool val) {
     headRightAndLeft = val;
 }
+void Dog::setMoveTopRightLeg(bool val){
+
+}

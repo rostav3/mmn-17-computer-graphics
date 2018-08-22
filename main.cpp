@@ -9,6 +9,7 @@
 #include "dog.h"
 #include "room.h"
 #include "items.h"
+#include "lamp.h"
 
 //using namespace std
 //cout<<"HELLO WORLD"<<endl;
@@ -29,7 +30,7 @@ static constexpr GLdouble FAR = 10.0;
 
 // eye
 static constexpr GLdouble EYE_POS[NUM_COORDINATES] = {0.0, 2.0, 2.0};
-static constexpr GLdouble EYE_CENTER[NUM_COORDINATES] = {0.0, 0.0, 0.0};
+static constexpr GLdouble EYE_CENTER[NUM_COORDINATES] = {0.0, 1.0, 0.0};
 static constexpr GLdouble EYE_UP[NUM_COORDINATES] = {0.0, 1.0, 0.0};
 
 
@@ -39,10 +40,10 @@ static bool show_another_window = false;
 
 Dog dog;
 Room room;
-Projector projector;
 Ball ball;
 Bone bone;
 Bowl bowl;
+Lamp lamp;
 
 void display_menu() {
     ImGui_ImplOpenGL2_NewFrame();
@@ -143,11 +144,10 @@ void displayFun(){
 
     room.draw();
     dog.draw();
-    projector.draw();
     ball.draw();
     bone.draw();
     bowl.draw();
-
+    lamp.draw();
     display_menu();
 
     glutSwapBuffers();
@@ -206,6 +206,9 @@ void keyboardFun(unsigned char key, int x, int y) {
             break;
         case 'I':
             dog.setHeadRightAndLeft(false);
+            break;
+        case '1':
+            dog.setMoveTopRightLeg(true);
             break;
         default:
             return;    }
