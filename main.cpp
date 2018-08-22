@@ -317,7 +317,18 @@ void keyboardFun(unsigned char key, int x, int y) {
         case 'i':
             dog.set_tailRightAndLeft(false);
             break;
-
+        case 'O':
+            dog.set_headUpAndDown(true);
+            break;
+        case 'P':
+            dog.set_headUpAndDown(false);
+            break;
+        case 'U':
+            dog.set_headRightAndLeft(true);
+            break;
+        case 'I':
+            dog.set_headRightAndLeft(false);
+            break;
         default:
             return;    }
 //    setCameraView();

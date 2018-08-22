@@ -18,6 +18,8 @@ Dog::Dog() {
     ticksCounter = 0;
     tailUpAndDown = false;
     tailRightAndLeft = false;
+    headRightAndLeft = false;
+    headUpAndDown = false;
 }
 
 
@@ -77,8 +79,9 @@ void Dog::draw(){
 
     // head
     glPushMatrix();
-    glTranslated(0.25,0.4,0.45);
+    glTranslated(0.25 + (headRightAndLeft ? pow(-1,animationCounter%2)/100 : 0),0.4 +  (headUpAndDown ? pow(-1,animationCounter%2)/100 : 0),0.45);
     glScaled(0.17,0.155,0.17);
+
     glutSolidSphere(0.8, 50, 50);
     glPopMatrix();
 
@@ -87,21 +90,21 @@ void Dog::draw(){
 
     // hear
     glPushMatrix();
-    glTranslated(0.36,0.44,0.48);
+    glTranslated(0.36 + (headRightAndLeft ? pow(-1,animationCounter%2)/100 : 0),0.44+  (headUpAndDown ? pow(-1,animationCounter%2)/100 : 0),0.48);
     glScaled(0.06,0.09,0.06);
     glutSolidSphere(0.8, 50, 50);
     glPopMatrix();
 
     // hear
     glPushMatrix();
-    glTranslated(0.14,0.44,0.48);
+    glTranslated(0.14 + (headRightAndLeft ? pow(-1,animationCounter%2)/100 : 0),0.44+  (headUpAndDown ? pow(-1,animationCounter%2)/100 : 0),0.48);
     glScaled(0.06,0.09,0.06);
     glutSolidSphere(0.8, 50, 50);
     glPopMatrix();
 
     // nose
     glPushMatrix();
-    glTranslated(0.25,0.42,0.6);
+    glTranslated(0.25 + (headRightAndLeft ? pow(-1,animationCounter%2)/100 : 0),0.42 +  (headUpAndDown ? pow(-1,animationCounter%2)/100 : 0),0.6);
     glScaled(0.02,0.02,0.02);
     glutSolidSphere(0.8, 50, 50);
     glPopMatrix();
@@ -111,14 +114,14 @@ void Dog::draw(){
 
     // eyes
     glPushMatrix();
-    glTranslated(0.285,0.45,0.525);
+    glTranslated(0.285 + (headRightAndLeft ? pow(-1,animationCounter%2)/100 : 0),0.45+  (headUpAndDown ? pow(-1,animationCounter%2)/100 : 0),0.525);
     glScaled(0.06,0.06,0.06);
     glutSolidSphere(0.8, 50, 50);
     glPopMatrix();
 
     // eyes
     glPushMatrix();
-    glTranslated(0.215,0.45,0.525);
+    glTranslated(0.215 + (headRightAndLeft ? pow(-1,animationCounter%2)/100 : 0),0.45 +  (headUpAndDown ? pow(-1,animationCounter%2)/100 : 0),0.525);
     glScaled(0.06,0.06,0.06);
     glutSolidSphere(0.8, 50, 50);
     glPopMatrix();
@@ -130,4 +133,12 @@ void Dog::set_tailUpAndDown(bool val){
 
 void Dog::set_tailRightAndLeft(bool val) {
     tailRightAndLeft = val;
+}
+
+void Dog::set_headUpAndDown(bool val){
+    headUpAndDown = val;
+}
+
+void Dog::set_headRightAndLeft(bool val) {
+    headRightAndLeft = val;
 }
