@@ -11,7 +11,11 @@ class Dog {
     bool tailRightAndLeft;
     bool headUpAndDown;
     bool headRightAndLeft;
-
+    bool moveTopRightLeg;
+    bool moveTopLeftLeg;
+    bool moveBackRightLeg;
+    bool moveBackLeftLeg;
+    bool walk;
     int animationCounter;
     int ticksCounter;
 
@@ -23,6 +27,10 @@ public:
     void setHeadUpAndDown(bool val);
     void setHeadRightAndLeft(bool val);
     void setMoveTopRightLeg(bool val);
+    void setMoveTopLeftLeg(bool val);
+    void setMoveBackRightLeg(bool val);
+    void setMoveBackLeftLeg(bool val);
+    void setWalk(bool val);
 };
 
 

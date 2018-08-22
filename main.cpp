@@ -208,10 +208,22 @@ void keyboardFun(unsigned char key, int x, int y) {
             dog.setHeadRightAndLeft(false);
             break;
         case '1':
+            dog.setMoveBackLeftLeg(true);
+            break;
+        case '2':
+            dog.setMoveTopLeftLeg(true);
+            break;
+        case '3':
+            dog.setMoveBackRightLeg(true);
+            break;
+        case '4':
             dog.setMoveTopRightLeg(true);
             break;
+        case '5':
+            dog.setWalk(true);
         default:
-            return;    }
+            return;
+    }
 }
 
 void setPerspectiveProjection(GLfloat aspect) {

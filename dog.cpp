@@ -34,24 +34,29 @@ void Dog::draw(){
     // legs
     glPushMatrix();
     glTranslated(0.3,0.065,0.3);
+    glRotatef(15.0f, moveBackLeftLeg ? (GLfloat)pow(-1,animationCounter%2) : 0,0,0);
     glScaled(0.03,0.06,0.03);
     glutSolidSphere(1.0, 50, 50);
     glPopMatrix();
 
     glPushMatrix();
     glTranslated(0.2,0.065,0.3);
+    glRotatef(-15.0f, moveBackRightLeg ? (GLfloat)pow(-1,animationCounter%2) : 0,0,0);
     glScaled(0.03,0.06,0.03);
     glutSolidSphere(1.0, 50, 50);
     glPopMatrix();
 
     glPushMatrix();
     glTranslated(0.2,0.065,0.45);
+    glRotatef(-15.0f, moveTopRightLeg ? (GLfloat)pow(-1,animationCounter%2) : 0,0,0);
+
     glScaled(0.03,0.06,0.03);
     glutSolidSphere(1.0, 50, 50);
     glPopMatrix();
 
     glPushMatrix();
     glTranslated(0.3,0.065,0.45);
+    glRotatef(15.0f, moveTopLeftLeg ? (GLfloat)pow(-1,animationCounter%2) : 0,0,0);
     glScaled(0.03,0.06,0.03);
     glutSolidSphere(1.0, 50, 50);
     glPopMatrix();
@@ -135,5 +140,21 @@ void Dog::setHeadRightAndLeft(bool val) {
     headRightAndLeft = val;
 }
 void Dog::setMoveTopRightLeg(bool val){
+    moveTopRightLeg = val;
+}
 
+void Dog::setMoveTopLeftLeg(bool val){
+    moveTopLeftLeg = val;
+}
+
+void Dog::setMoveBackRightLeg(bool val){
+    moveBackRightLeg = val;
+}
+
+void Dog::setMoveBackLeftLeg(bool val){
+    moveBackLeftLeg = val;
+}
+
+void Dog::setWalk(bool val){
+    walk = val;
 }
