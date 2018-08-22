@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(mmn17ComputerGraphics)
 set(CMAKE_CXX_STANDARD 14)
-set(SOURCE_FILES main.cpp RgbImage.h)
+set(SOURCE_FILES main.cpp Dog.cpp Dog.h)
 set(EXECUTABLE_NAME mmn17)
 find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)

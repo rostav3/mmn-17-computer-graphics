@@ -2,22 +2,37 @@
 // Created by stav on 22/08/18.
 //
 
-#include "dog.h"
+// includes
+#include <GL/gl.h>
+#include <math.h>
+#include <cmath>
+#include <GL/glut.h>
+#include <iostream>
+#include <stdlib.h>
+#include "Dog.h"
+#include <future>
 
 
-dog::dog() {
-
+Dog::Dog() {
+    animationCounter = 0;
+    ticksCounter = 0;
+    tailUpAndDown = false;
+    tailRightAndLeft = false;
 }
 
-void dof::draw(){
+
+void Dog::draw(){
+    ticksCounter++;
+    animationCounter += (ticksCounter%6 == 0) ? 1 : 0;
+
     glColor3f(0.8,0.5,0.2);
 
     // tail
     glPushMatrix();
     glTranslated(0.25,0.15,0.15);
+    glRotatef(45.0f,  tailUpAndDown ? (GLfloat)pow(-1,animationCounter%2) : 0, tailRightAndLeft ? (GLfloat)pow(-1,animationCounter%2) : 0, 0.0);
     glScaled(0.03,0.03,0.08);
     glutSolidSphere(1.0, 50, 50);
-    glRotatef(45.0f, 0.0, 1.0, 0.0);
 
     glPopMatrix();
 
@@ -26,28 +41,24 @@ void dof::draw(){
     glTranslated(0.3,0.065,0.3);
     glScaled(0.03,0.06,0.03);
     glutSolidSphere(1.0, 50, 50);
-    glRotatef(-90, 40.0, 0.0, 0.0);
     glPopMatrix();
 
     glPushMatrix();
     glTranslated(0.2,0.065,0.3);
     glScaled(0.03,0.06,0.03);
     glutSolidSphere(1.0, 50, 50);
-    glRotatef(-90, 40.0, 0.0, 0.0);
     glPopMatrix();
 
     glPushMatrix();
     glTranslated(0.2,0.065,0.45);
     glScaled(0.03,0.06,0.03);
     glutSolidSphere(1.0, 50, 50);
-    glRotatef(-90, 40.0, 0.0, 0.0);
     glPopMatrix();
 
     glPushMatrix();
     glTranslated(0.3,0.065,0.45);
     glScaled(0.03,0.06,0.03);
     glutSolidSphere(1.0, 50, 50);
-    glRotatef(-90, 40.0, 0.0, 0.0);
     glPopMatrix();
 
     // body
@@ -111,4 +122,12 @@ void dof::draw(){
     glScaled(0.06,0.06,0.06);
     glutSolidSphere(0.8, 50, 50);
     glPopMatrix();
+}
+
+void Dog::set_tailUpAndDown(bool val){
+    tailUpAndDown = val;
+}
+
+void Dog::set_tailRightAndLeft(bool val) {
+    tailRightAndLeft = val;
 }

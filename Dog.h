@@ -6,11 +6,17 @@
 #define MMN17COMPUTERGRAPHICS_DOG_H
 
 
-class dog {
+class Dog {
+    bool tailUpAndDown;
+    bool tailRightAndLeft;
+    int animationCounter;
+    int ticksCounter;
 
 public:
-    dog();
+    Dog();
     void draw();
+    void set_tailUpAndDown(bool val);
+    void set_tailRightAndLeft(bool val);
 };
 
 
