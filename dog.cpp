@@ -119,18 +119,18 @@ void Dog::draw(){
     glPopMatrix();
 }
 
-void Dog::set_tailUpAndDown(bool val){
+void Dog::setTailUpAndDown(bool val){
     tailUpAndDown = val;
 }
 
-void Dog::set_tailRightAndLeft(bool val) {
+void Dog::setTailRightAndLeft(bool val) {
     tailRightAndLeft = val;
 }
 
-void Dog::set_headUpAndDown(bool val){
+void Dog::setHeadUpAndDown(bool val){
     headUpAndDown = val;
 }
 
-void Dog::set_headRightAndLeft(bool val) {
+void Dog::setHeadRightAndLeft(bool val) {
     headRightAndLeft = val;
 }

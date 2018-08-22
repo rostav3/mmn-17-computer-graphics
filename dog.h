@@ -18,10 +18,10 @@ class Dog {
 public:
     Dog();
     void draw();
-    void set_tailUpAndDown(bool val);
-    void set_tailRightAndLeft(bool val);
-    void set_headUpAndDown(bool val);
-    void set_headRightAndLeft(bool val);
+    void setTailUpAndDown(bool val);
+    void setTailRightAndLeft(bool val);
+    void setHeadUpAndDown(bool val);
+    void setHeadRightAndLeft(bool val);
 };
 
 

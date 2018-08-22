@@ -283,28 +283,28 @@ void keyboardFun(unsigned char key, int x, int y) {
             glScalef(0.9f, 0.9f, 0.9f);
             break;
         case 'o':
-            dog.set_tailUpAndDown(true);
+            dog.setTailUpAndDown(true);
             break;
         case 'p':
-            dog.set_tailUpAndDown(false);
+            dog.setTailUpAndDown(false);
             break;
         case 'u':
-            dog.set_tailRightAndLeft(true);
+            dog.setTailRightAndLeft(true);
             break;
         case 'i':
-            dog.set_tailRightAndLeft(false);
+            dog.setTailRightAndLeft(false);
             break;
         case 'O':
-            dog.set_headUpAndDown(true);
+            dog.setHeadUpAndDown(true);
             break;
         case 'P':
-            dog.set_headUpAndDown(false);
+            dog.setHeadUpAndDown(false);
             break;
         case 'U':
-            dog.set_headRightAndLeft(true);
+            dog.setHeadRightAndLeft(true);
             break;
         case 'I':
-            dog.set_headRightAndLeft(false);
+            dog.setHeadRightAndLeft(false);
             break;
         default:
             return;    }

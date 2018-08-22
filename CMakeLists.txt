@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 add_subdirectory(imgui)
 include_directories(${PROJECT_SOURCE_DIR})
 
-find_package(X11 REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLut REQUIRED)
 
