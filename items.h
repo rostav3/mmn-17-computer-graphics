@@ -24,12 +24,6 @@ public:
 
 };
 
-class Walls {
-public:
-	void draw();
-
-};
-
 class Projector {
 public:
 	void draw();

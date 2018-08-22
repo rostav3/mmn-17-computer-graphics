@@ -7,9 +7,9 @@ add_subdirectory(imgui)
 include_directories(${PROJECT_SOURCE_DIR})
 
 find_package(OpenGL REQUIRED)
-find_package(GLut REQUIRED)
+find_package(GLUT REQUIRED)
 
-add_executable(mmn17 main.cpp main.cpp dog.cpp dog.h items.cpp items.h)
+add_executable(mmn17 main.cpp main.cpp dog.cpp dog.h items.cpp items.h room.cpp room.h)
 
 
 target_link_libraries(mmn17 ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} imgui)
