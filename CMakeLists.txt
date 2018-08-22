@@ -3,13 +3,14 @@ project(mmn-17-computer-graphics)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_subdirectory(./imgui)
-set(SOURCE_FILES main.cpp dog.cpp dog.h items.cpp items.h)
-set(EXECUTABLE_NAME mmn17
-        )
+add_subdirectory(imgui)
+include_directories(${PROJECT_SOURCE_DIR})
+
+find_package(X11 REQUIRED)
 find_package(OpenGL REQUIRED)
-find_package(GLUT REQUIRED)
+find_package(GLut REQUIRED)
 
-add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
+add_executable(mmn17 main.cpp main.cpp dog.cpp dog.h items.cpp items.h)
 
-target_link_libraries(${EXECUTABLE_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} imgui)
+
+target_link_libraries(mmn17 ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} imgui)

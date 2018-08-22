@@ -8,6 +8,9 @@
 #include <iostream>
 #include "dog.h"
 
+//using namespace std
+//cout<<"HELLO WORLD"<<endl;
+
 // misc
 static constexpr GLsizei NUM_COORDINATES = 3;
 
@@ -18,27 +21,15 @@ static constexpr GLint WIN_HEIGHT = 720;
 
 // perspective
 static constexpr GLdouble FOV = 40.0;
-static constexpr GLdouble ASPECT = 1.0;
 static constexpr GLdouble NEAR = 1.0;
 static constexpr GLdouble FAR = 10.0;
 
 
 // eye
-static constexpr GLdouble EYE_POS[NUM_COORDINATES] = {0.0, 0.0, 1.0};
+static constexpr GLdouble EYE_POS[NUM_COORDINATES] = {0.0, 2.0, 2.0};
 static constexpr GLdouble EYE_CENTER[NUM_COORDINATES] = {0.0, 0.0, 0.0};
 static constexpr GLdouble EYE_UP[NUM_COORDINATES] = {0.0, 1.0, 0.0};
 
-// animation
-static  GLfloat camera_move_x = 2.3;
-static  GLfloat camera_move_y = 1.38;
-static  GLfloat camera_move_z = 2.0;
-static  GLfloat zoom_factor = 1;
-static GLfloat  c_x = .0;
-static GLfloat  c_y = 0.25;
-static GLfloat  c_z = .0;
-static GLfloat  u_x = .0;
-static GLfloat  u_y = 1.0;
-static GLfloat  u_z = .0;
 
 
 static bool show_demo_window = true;
@@ -140,41 +131,11 @@ GLuint loadBMP_custom(const char * imagepath){
     glActiveTexture(GL_TEXTURE0);
 }
 
-void setPerspectiveProjection(GLfloat aspect) {
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluPerspective(FOV, aspect, NEAR, FAR);
-    glMatrixMode(GL_MODELVIEW);
-}
 
-
-void displayFun() {
-    GLfloat mat_ambient[]={0.7f,0.7f,0.7f,0.1f};
-    GLfloat mat_diffuse[]={0.5f,0.5f,0.5f,1.0f};
-    GLfloat mat_specular[]={1.0f,1.0f,1.0f,1.0f};
-    GLfloat mat_shininess[]={20.0f};
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-
-
-    glMaterialfv(GL_FRONT,GL_AMBIENT,mat_ambient);
-    glMaterialfv(GL_FRONT,GL_SPECULAR,mat_specular);
-    glMaterialfv(GL_FRONT,GL_SHININESS,mat_shininess);
-    GLfloat light_Intensity[]={0.9f,0.9f,0.9f,1.0f};
-
-    GLfloat light_Position[]={4.0f,6.0f,3.0f,0.0f};
-    glLightfv(GL_LIGHT0,GL_POSITION,light_Position);
-    glLightfv(GL_LIGHT0,GL_DIFFUSE,light_Intensity);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    setPerspectiveProjection((GLfloat) glutGet(GLUT_WINDOW_WIDTH) / (GLfloat) glutGet(GLUT_WINDOW_HEIGHT));
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-
-    gluLookAt(camera_move_x,camera_move_y,camera_move_z,c_x,c_y,c_z,u_x,u_y,u_z);
-
+void displayFun(){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // floor
-
 //    glEnable(GL_TEXTURE_2D);
 //    glDisable(GL_TEXTURE_2D);
 
@@ -295,60 +256,31 @@ void displayFun() {
 
 
 void keyboardFun(unsigned char key, int x, int y) {
+    ImGui_ImplFreeGLUT_KeyboardFunc(key, x, y);
     switch (key) {
         case 'w':
-            camera_move_y += 0.1;
+            glRotatef(5.0f, 1.0f, 0.0f, 0.0f);
             break;
         case 's':
-            camera_move_y -= 0.1;
+            glRotatef(-5.0f, 1.0f, 0.0f, 0.0f);
             break;
         case 'a':
-            camera_move_x -= 0.1;
+            glRotatef(5.0f, 0.0f, 1.0f, 0.0f);
             break;
         case 'd':
-            camera_move_x += 0.1;
+            glRotatef(-5.0f, 0.0f, 1.0f, 0.0f);
             break;
         case 'e':
-            camera_move_z -= 0.1;
+            glRotatef(5.0f, 0.0f, 0.0f, 1.0f);
             break;
         case 'q':
-            camera_move_z += 0.1;
+            glRotatef(-5.0f, 0.0f, 0.0f, 1.0f);
             break;
-        case 'z':
-            c_x+=0.1;
+        case '=':
+            glScalef(1.1f, 1.1f, 1.1f);
             break;
-        case 'x':
-            c_x-=0.1;
-            break;
-        case 'c':
-            c_y+=0.1;
-            break;
-        case 'v':
-            c_y-=0.1;
-            break;
-        case 'b':
-            c_z+=0.1;
-            break;
-        case 'n':
-            c_z-=0.1;
-            break;
-        case 'Z':
-            u_x+=0.1;
-            break;
-        case 'X':
-            u_x-=0.1;
-            break;
-        case 'C':
-            u_y+=0.1;
-            break;
-        case 'V':
-            u_y-=0.1;
-            break;
-        case 'B':
-            u_z+=0.1;
-            break;
-        case 'N':
-            u_z-=0.1;
+        case '-':
+            glScalef(0.9f, 0.9f, 0.9f);
             break;
         case 'o':
             dog.set_tailUpAndDown(true);
@@ -376,7 +308,54 @@ void keyboardFun(unsigned char key, int x, int y) {
             break;
         default:
             return;    }
-//    setCameraView();
+}
+
+void setPerspectiveProjection(GLfloat aspect) {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(FOV, aspect, NEAR, FAR);
+    glMatrixMode(GL_MODELVIEW);
+}
+
+void setCameraView() {
+    glLoadIdentity();
+    gluLookAt(EYE_POS[0], EYE_POS[1], EYE_POS[2], EYE_CENTER[0], EYE_CENTER[1], EYE_CENTER[2], EYE_UP[0], EYE_UP[1], EYE_UP[2]);
+}
+
+void reshapeFun(int w, int h) {
+    ImGui_ImplFreeGLUT_ReshapeFunc(w, h);
+    glViewport(0, 0, w, h);
+    setPerspectiveProjection((GLfloat) w / (GLfloat) h);
+    setCameraView();
+}
+
+void initialSetup(){
+    glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_SMOOTH);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_NORMALIZE);
+
+
+    GLfloat mat_ambient[]={0.7f,0.7f,0.7f,0.1f};
+    GLfloat mat_diffuse[]={0.5f,0.5f,0.5f,1.0f};
+    GLfloat mat_specular[]={1.0f,1.0f,1.0f,1.0f};
+    GLfloat mat_shininess[]={20.0f};
+
+    glMaterialfv(GL_FRONT,GL_AMBIENT,mat_ambient);
+    glMaterialfv(GL_FRONT,GL_SPECULAR,mat_specular);
+    glMaterialfv(GL_FRONT,GL_SHININESS,mat_shininess);
+    GLfloat light_Intensity[]={0.9f,0.9f,0.9f,1.0f};
+
+    GLfloat light_Position[]={4.0f,6.0f,3.0f,0.0f};
+    glLightfv(GL_LIGHT0,GL_POSITION,light_Position);
+    glLightfv(GL_LIGHT0,GL_DIFFUSE,light_Intensity);
+
+    setPerspectiveProjection((GLfloat) glutGet(GLUT_WINDOW_WIDTH) / (GLfloat) glutGet(GLUT_WINDOW_HEIGHT));
+    setCameraView();
 }
 
 
@@ -384,18 +363,17 @@ int main(int argc, char **argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
     glutInitWindowSize(WIN_WIDTH, WIN_HEIGHT);
-    glutInitWindowPosition(0,0);
+    glutInitWindowPosition(glutGet(GLUT_SCREEN_WIDTH) / 2 - WIN_WIDTH / 2, glutGet(GLUT_SCREEN_HEIGHT) / 2 - WIN_HEIGHT / 2);
     glutCreateWindow(WIN_NAME);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_SMOOTH);
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_COLOR_MATERIAL);
-    glEnable(GL_NORMALIZE);
     glutDisplayFunc(displayFun);
-    GLuint image = loadBMP_custom("/home/stav/CLionProjects/mmn17ComputerGarphics/Grass01.bmp");
-//    glutReshapeFunc(reshapeFun);
+    glutReshapeFunc(reshapeFun);
     glutKeyboardFunc(keyboardFun);
+
+
+    GLuint image = loadBMP_custom("/home/stav/CLionProjects/mmn17ComputerGarphics/Grass01.bmp");
+
+
+    initialSetup();
 
     // Setup ImGui binding
     ImGui::CreateContext();

@@ -1,0 +1,3 @@
+/Users/roman/CLionProjects/mmn-17-graphics/imgui/CMakeFiles/rebuild_cache.dir
+/Users/roman/CLionProjects/mmn-17-graphics/imgui/CMakeFiles/edit_cache.dir
+/Users/roman/CLionProjects/mmn-17-graphics/imgui/CMakeFiles/imgui.dir
