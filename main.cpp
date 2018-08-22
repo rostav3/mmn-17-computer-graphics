@@ -1,19 +1,20 @@
 
 // includes
-#include <GL/gl.h>
-#include <math.h>
-#include <cmath>
+
+#include "imgui.h"
+#include "imgui/imgui_impl_freeglut.h"
+#include "imgui/imgui_impl_opengl2.h"
 #include <GL/glut.h>
 #include <iostream>
-#include <stdlib.h>
-#include "Dog.h"
+#include "dog.h"
+
 // misc
 static constexpr GLsizei NUM_COORDINATES = 3;
 
 // window
-static constexpr GLchar WIN_NAME[] = "Polyhedron Animation";
-static constexpr GLint WIN_WIDTH = 800;
-static constexpr GLint WIN_HEIGHT = 800;
+static constexpr GLchar WIN_NAME[] = "Dog Room Scene";
+static constexpr GLint WIN_WIDTH = 1280;
+static constexpr GLint WIN_HEIGHT = 720;
 
 // perspective
 static constexpr GLdouble FOV = 40.0;
@@ -21,12 +22,10 @@ static constexpr GLdouble ASPECT = 1.0;
 static constexpr GLdouble NEAR = 1.0;
 static constexpr GLdouble FAR = 10.0;
 
-// orthographic
-static constexpr GLdouble ORTHO_COORDS[] = {-1, 1, -1, 1, 1, 10};
 
 // eye
-static constexpr GLdouble EYE_POS[NUM_COORDINATES] = {0.5, 0.5, 5.0};
-static constexpr GLdouble EYE_CENTER[NUM_COORDINATES] = {0.5, 0.5, 0.5};
+static constexpr GLdouble EYE_POS[NUM_COORDINATES] = {0.0, 0.0, 1.0};
+static constexpr GLdouble EYE_CENTER[NUM_COORDINATES] = {0.0, 0.0, 0.0};
 static constexpr GLdouble EYE_UP[NUM_COORDINATES] = {0.0, 1.0, 0.0};
 
 // animation
@@ -41,7 +40,53 @@ static GLfloat  u_x = .0;
 static GLfloat  u_y = 1.0;
 static GLfloat  u_z = .0;
 
+
+static bool show_demo_window = true;
+static bool show_another_window = false;
+
 Dog dog;
+
+
+void display_menu() {
+    ImGui_ImplOpenGL2_NewFrame();
+    ImGui_ImplFreeGLUT_NewFrame();
+
+    static float f = 0.0f;
+    ImGui::Begin("Scene Control Panel", &show_another_window);
+
+    ImGui::Spacing();
+    ImGui::Text("Camera Options");
+    ImGui::Checkbox("Keyboard Control Camera", &show_demo_window);
+
+    ImGui::Spacing();
+    ImGui::Text("Ambient Light Options");
+    ImGui::SliderFloat("Intensity", &f, 0.0f, 1.0f);
+
+    ImGui::Spacing();
+    ImGui::Text("Point Light Options");
+    ImGui::Checkbox("Keyboard Control Light", &show_demo_window);
+    ImGui::SliderFloat("Intensity", &f, 0.0f, 1.0f);
+
+    ImGui::Spacing();
+    ImGui::Text("Dog Options");
+    ImGui::Checkbox("Dog View Point", &show_demo_window);
+    ImGui::Checkbox("Keyboard Control Dog", &show_demo_window);
+    ImGui::Checkbox("Tail Animation", &show_demo_window);      // Edit bools storing our windows open/close state
+    ImGui::Checkbox("Head Animation", &show_another_window);
+    ImGui::Checkbox("Legs Animation", &show_another_window);
+
+    ImGui::Spacing();
+    ImGui::Button("Help");
+
+    ImGui::Spacing();
+    ImGui::Button("Quit");
+
+    ImGui::Spacing();
+    ImGui::End();
+    ImGui::Render();
+
+    ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+}
 
 
 GLuint loadBMP_custom(const char * imagepath){
@@ -240,14 +285,14 @@ void displayFun() {
     glScaled(0.5,0.5,0.5);
     glPopMatrix();
 
-    glFlush();
+
+    display_menu();
+
     glutSwapBuffers();
-}
-
-
-void idleFun() {
     glutPostRedisplay();
 }
+
+
 
 void keyboardFun(unsigned char key, int x, int y) {
     switch (key) {
@@ -351,7 +396,21 @@ int main(int argc, char **argv) {
     GLuint image = loadBMP_custom("/home/stav/CLionProjects/mmn17ComputerGarphics/Grass01.bmp");
 //    glutReshapeFunc(reshapeFun);
     glutKeyboardFunc(keyboardFun);
-    glutIdleFunc(idleFun);
-//    initCubeDisplayList();
+
+    // Setup ImGui binding
+    ImGui::CreateContext();
+    ImGui_ImplFreeGLUT_Init();
+    ImGui_ImplFreeGLUT_InstallFuncs();
+    ImGui_ImplOpenGL2_Init();
+    ImGui::StyleColorsDark(); // Setup style
+
     glutMainLoop();
+
+    // Cleanup
+    ImGui_ImplOpenGL2_Shutdown();
+    ImGui_ImplFreeGLUT_Shutdown();
+    ImGui::DestroyContext();
+
+    return 0;
+
 }

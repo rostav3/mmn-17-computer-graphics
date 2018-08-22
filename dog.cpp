@@ -3,14 +3,9 @@
 //
 
 // includes
-#include <GL/gl.h>
-#include <math.h>
-#include <cmath>
 #include <GL/glut.h>
-#include <iostream>
-#include <stdlib.h>
-#include "Dog.h"
-#include <future>
+#include <cmath>
+#include "dog.h"
 
 
 Dog::Dog() {
@@ -21,7 +16,6 @@ Dog::Dog() {
     headRightAndLeft = false;
     headUpAndDown = false;
 }
-
 
 void Dog::draw(){
     ticksCounter++;
@@ -35,7 +29,6 @@ void Dog::draw(){
     glRotatef(45.0f,  tailUpAndDown ? (GLfloat)pow(-1,animationCounter%2) : 0, tailRightAndLeft ? (GLfloat)pow(-1,animationCounter%2) : 0, 0.0);
     glScaled(0.03,0.03,0.08);
     glutSolidSphere(1.0, 50, 50);
-
     glPopMatrix();
 
     // legs
@@ -64,7 +57,6 @@ void Dog::draw(){
     glPopMatrix();
 
     // body
-
     glPushMatrix();
     glTranslated(0.25,0.15,0.35);
     glScaled(0.11,0.11,0.2);
