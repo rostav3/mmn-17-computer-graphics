@@ -24,9 +24,4 @@ public:
 
 };
 
-//class Projector {
-//public:
-//	void draw();
-//};
-
 #endif //MMN_17_COMPUTER_GRAPHICS_ITEMS_H

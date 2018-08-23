@@ -23,16 +23,6 @@ void Bowl::draw() {
 	glPopMatrix();
 }
 
-//void Projector::draw() {
-//	glColor3f(0.4,0.4,0.4);
-//	glPushMatrix();
-//	glTranslated(0.25,0.07,0.7);
-//	glScaled(0.15,0.15,0.15);
-//	glRotatef(45.0f, 1.0, 0.0, 0.0);
-//	glutSolidCone(0.6,0.71,20,50);
-//	glPopMatrix();
-//}
-
 void Bone::draw() {
 	glColor3f(1,0.9,0.8);
 
