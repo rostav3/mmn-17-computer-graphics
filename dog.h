@@ -18,6 +18,10 @@ class Dog {
     bool walk;
     int animationCounter;
     int ticksCounter;
+    double x;
+    double y;
+    double z;
+
 
 public:
     Dog();
