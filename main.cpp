@@ -10,6 +10,7 @@
 #include "lamp.h"
 #include "menu.h"
 #include "window.h"
+#include "floor.h"
 
 //using namespace std
 //cout<<"HELLO WORLD"<<endl;
@@ -41,6 +42,7 @@ static Bowl bowl;
 static Lamp lamp;
 static Window window;
 static Menu menu;
+static Floor floor;
 
 
 GLuint loadBMP_custom(const char * imagepath){
@@ -99,6 +101,7 @@ GLuint loadBMP_custom(const char * imagepath){
 void displayFun(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     room.draw();
+    floor.draw();
     dog.draw();
     ball.draw();
     bone.draw();
@@ -213,29 +216,17 @@ void initialSetup(){
     glEnable(GL_AUTO_NORMAL);
     glEnable(GL_SMOOTH);
     glEnable(GL_BLEND);
-    glEnable(GL_COLOR_MATERIAL);
-    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
     glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
     glEnable(GL_LIGHTING);
     glEnable(GL_DEPTH_TEST);
 
+    glEnable(GL_COLOR_MATERIAL);
+    glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+
 
     lamp.init();
     window.init();
-
-//    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
-
-
-//    GLfloat mat_ambient[]={0.7f,0.7f,0.7f,0.1f};
-//    GLfloat mat_diffuse[]={0.5f,0.5f,0.5f,1.0f};
-//    GLfloat mat_specular[]={1.0f,1.0f,1.0f,1.0f};
-//    GLfloat mat_shininess[]={20.0f};
-////
-//    glMaterialfv(GL_FRONT,GL_AMBIENT,mat_ambient);
-//    glMaterialfv(GL_FRONT,GL_SPECULAR,mat_specular);
-//    glMaterialfv(GL_FRONT,GL_SHININESS,mat_shininess);
-
 
     setPerspectiveProjection((GLfloat) glutGet(GLUT_WINDOW_WIDTH) / (GLfloat) glutGet(GLUT_WINDOW_HEIGHT));
     setCameraView();
