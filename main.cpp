@@ -1,15 +1,14 @@
 
 // includes
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_freeglut.h"
-#include "imgui/imgui_impl_opengl2.h"
+
 #include <GL/glut.h>
 #include <iostream>
 #include "dog.h"
 #include "room.h"
 #include "items.h"
 #include "lamp.h"
+#include "menu.h"
 
 //using namespace std
 //cout<<"HELLO WORLD"<<endl;
@@ -17,7 +16,7 @@
 // misc
 static constexpr GLsizei NUM_COORDINATES = 3;
 
-// window
+// window defaults
 static constexpr GLchar WIN_NAME[] = "Dog Room Scene";
 static constexpr GLint WIN_WIDTH = 1280;
 static constexpr GLint WIN_HEIGHT = 720;
@@ -27,65 +26,19 @@ static constexpr GLdouble FOV = 40.0;
 static constexpr GLdouble NEAR = 1.0;
 static constexpr GLdouble FAR = 10.0;
 
-
 // eye
 static constexpr GLdouble EYE_POS[NUM_COORDINATES] = {0.0, 2.0, 2.0};
 static constexpr GLdouble EYE_CENTER[NUM_COORDINATES] = {0.0, 1.0, 0.0};
 static constexpr GLdouble EYE_UP[NUM_COORDINATES] = {0.0, 1.0, 0.0};
 
-
-
-static bool show_demo_window = true;
-static bool show_another_window = false;
-
-Dog dog;
-Room room;
-Ball ball;
-Bone bone;
-Bowl bowl;
-Lamp lamp;
-
-void display_menu() {
-    ImGui_ImplOpenGL2_NewFrame();
-    ImGui_ImplFreeGLUT_NewFrame();
-
-    static float f = 0.0f;
-    ImGui::Begin("Scene Control Panel", &show_another_window);
-
-    ImGui::Spacing();
-    ImGui::Text("Camera Options");
-    ImGui::Checkbox("Keyboard Control Camera", &show_demo_window);
-
-    ImGui::Spacing();
-    ImGui::Text("Ambient Light Options");
-    ImGui::SliderFloat("Intensity", &f, 0.0f, 1.0f);
-
-    ImGui::Spacing();
-    ImGui::Text("Point Light Options");
-    ImGui::Checkbox("Keyboard Control Light", &show_demo_window);
-    ImGui::SliderFloat("Intensity", &f, 0.0f, 1.0f);
-
-    ImGui::Spacing();
-    ImGui::Text("Dog Options");
-    ImGui::Checkbox("Dog View Point", &show_demo_window);
-    ImGui::Checkbox("Keyboard Control Dog", &show_demo_window);
-    ImGui::Checkbox("Tail Animation", &show_demo_window);      // Edit bools storing our windows open/close state
-    ImGui::Checkbox("Head Animation", &show_another_window);
-    ImGui::Checkbox("Legs Animation", &show_another_window);
-
-    ImGui::Spacing();
-    ImGui::Button("Help");
-
-    ImGui::Spacing();
-    ImGui::Button("Quit");
-
-    ImGui::Spacing();
-    ImGui::End();
-    ImGui::Render();
-
-    ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
-}
-
+// objects
+static Room room;
+static Dog dog;
+static Ball ball;
+static Bone bone;
+static Bowl bowl;
+static Lamp lamp;
+static Menu menu;
 
 GLuint loadBMP_custom(const char * imagepath){
 // Data read from the header of the BMP file
@@ -112,7 +65,7 @@ GLuint loadBMP_custom(const char * imagepath){
     height     = *(unsigned int*)&(header[0x16]);
     if (imageSize==0)    imageSize=width*height*3; // 3 : one byte for each Red, Green and Blue component
     if (dataPos==0)      dataPos=54; // The BMP header is done that way
-// Create a buffer
+// Create ְa buffer
     data = new unsigned char [imageSize];
 
 // Read the actual data from the file into the buffer
@@ -136,6 +89,8 @@ GLuint loadBMP_custom(const char * imagepath){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glActiveTexture(GL_TEXTURE0);
+
+    return 0;
 }
 
 
@@ -148,7 +103,7 @@ void displayFun(){
     bone.draw();
     bowl.draw();
     lamp.draw();
-    display_menu();
+	menu.draw();
 
     glutSwapBuffers();
     glutPostRedisplay();
@@ -157,7 +112,7 @@ void displayFun(){
 
 
 void keyboardFun(unsigned char key, int x, int y) {
-    ImGui_ImplFreeGLUT_KeyboardFunc(key, x, y);
+    menu.keyboard(key, x, y);
     switch (key) {
         case 'w':
             glRotatef(5.0f, 1.0f, 0.0f, 0.0f);
@@ -243,36 +198,47 @@ void setCameraView() {
 }
 
 void reshapeFun(int w, int h) {
-    ImGui_ImplFreeGLUT_ReshapeFunc(w, h);
+    menu.reshape(w, h);
     glViewport(0, 0, w, h);
     setPerspectiveProjection((GLfloat) w / (GLfloat) h);
     setCameraView();
 }
 
+static GLfloat light_color[] = {1.0f,0.0f,0.0f,0.5f};
+static GLfloat light_position[] = {0.0, 0.0, 0.0};
+
 void initialSetup(){
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHTING);
+    glEnable(GL_AUTO_NORMAL);
     glEnable(GL_SMOOTH);
+    glEnable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_COLOR_MATERIAL);
-    glEnable(GL_NORMALIZE);
+//    glEnable(GL_NORMALIZE);
 
+    glShadeModel(GL_SMOOTH);
+//    glLightModelf(GL)
+    glEnable(GL_LIGHTING);
 
-    GLfloat mat_ambient[]={0.7f,0.7f,0.7f,0.1f};
-    GLfloat mat_diffuse[]={0.5f,0.5f,0.5f,1.0f};
-    GLfloat mat_specular[]={1.0f,1.0f,1.0f,1.0f};
-    GLfloat mat_shininess[]={20.0f};
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+    glLightfv(GL_LIGHT0,GL_AMBIENT,light_color);
 
-    glMaterialfv(GL_FRONT,GL_AMBIENT,mat_ambient);
-    glMaterialfv(GL_FRONT,GL_SPECULAR,mat_specular);
-    glMaterialfv(GL_FRONT,GL_SHININESS,mat_shininess);
-    GLfloat light_Intensity[]={0.9f,0.9f,0.9f,1.0f};
+//    glLightfv(GL_LIGHT0,GL_DIFFUSE,light_color);
+//    glLightfv(GL_LIGHT0,GL_SPECULAR,light_Intensity);
+//    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 100.0);
+//    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 5.0);
+//    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION,0.0);
+    glEnable(GL_LIGHT0);
 
-    GLfloat light_Position[]={4.0f,6.0f,3.0f,0.0f};
-    glLightfv(GL_LIGHT0,GL_POSITION,light_Position);
-    glLightfv(GL_LIGHT0,GL_DIFFUSE,light_Intensity);
+//    GLfloat mat_ambient[]={0.7f,0.7f,0.7f,0.1f};
+//    GLfloat mat_diffuse[]={0.5f,0.5f,0.5f,1.0f};
+//    GLfloat mat_specular[]={1.0f,1.0f,1.0f,1.0f};
+//    GLfloat mat_shininess[]={20.0f};
+//
+//    glMaterialfv(GL_FRONT,GL_AMBIENT,mat_ambient);
+//    glMaterialfv(GL_FRONT,GL_SPECULAR,mat_specular);
+//    glMaterialfv(GL_FRONT,GL_SHININESS,mat_shininess);
 
     setPerspectiveProjection((GLfloat) glutGet(GLUT_WINDOW_WIDTH) / (GLfloat) glutGet(GLUT_WINDOW_HEIGHT));
     setCameraView();
@@ -295,19 +261,11 @@ int main(int argc, char **argv) {
 
     initialSetup();
 
-    // Setup ImGui binding
-    ImGui::CreateContext();
-    ImGui_ImplFreeGLUT_Init();
-    ImGui_ImplFreeGLUT_InstallFuncs();
-    ImGui_ImplOpenGL2_Init();
-    ImGui::StyleColorsDark(); // Setup style
+    menu.setup();
 
     glutMainLoop();
 
-    // Cleanup
-    ImGui_ImplOpenGL2_Shutdown();
-    ImGui_ImplFreeGLUT_Shutdown();
-    ImGui::DestroyContext();
+    menu.cleanup();
 
     return 0;
 

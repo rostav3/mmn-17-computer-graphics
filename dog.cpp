@@ -24,10 +24,16 @@ void Dog::draw(){
     ticksCounter++;
     animationCounter += (ticksCounter%6 == 0) ? 1 : 0;
 
-    glColor3f(0.8,0.5,0.2);
+//    glColor3f(0.8,0.5,0.2);
     if (walk){
         z += 0.01;
     }
+
+//    rotate the whole dog
+//    glPushMatrix();
+//    glRotated(90, 0, 1, 0);
+//    glTranslated(1,0,0);
+
 
     // tail
     glPushMatrix();
@@ -88,7 +94,7 @@ void Dog::draw(){
     glPopMatrix();
 
 
-    glColor3f(0.6,0.4,0.14);
+//    glColor3f(0.6,0.4,0.14);
 
     // hear
     glPushMatrix();
@@ -127,6 +133,10 @@ void Dog::draw(){
     glScaled(0.06,0.06,0.06);
     glutSolidSphere(0.8, 50, 50);
     glPopMatrix();
+
+// end whole dog rotation
+//    glPopMatrix();
+
 }
 
 void Dog::setTailUpAndDown(bool val){
