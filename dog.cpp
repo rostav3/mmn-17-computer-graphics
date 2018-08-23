@@ -106,7 +106,7 @@ void Dog::draw(){
 
     // nose
     glPushMatrix();
-    glTranslated(x + (headRightAndLeft ? pow(-1,animationCounter%2)/100 : 0),y + 27 +  (headUpAndDown ? pow(-1,animationCounter%2)/100 : 0),0.25 + z);
+    glTranslated(x + (headRightAndLeft ? pow(-1,animationCounter%2)/100 : 0),y + 0.27 +  (headUpAndDown ? pow(-1,animationCounter%2)/100 : 0),0.25 + z);
     glScaled(0.02,0.02,0.02);
     glutSolidSphere(0.8, 50, 50);
     glPopMatrix();
