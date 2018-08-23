@@ -54,12 +54,4 @@ void Room::draw(){
     glPopMatrix();
 
 
-    // window
-    glPushMatrix();
-    glColor4f(0.8f,1.0f,0.6f, 1.0f);
-    glTranslated(-1.58,1,0.4);
-    glScaled(0.025,0.5,0.5);
-    glutSolidCube(1.0);
-    glPopMatrix();
-
 }

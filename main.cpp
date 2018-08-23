@@ -9,6 +9,7 @@
 #include "items.h"
 #include "lamp.h"
 #include "menu.h"
+#include "window.h"
 
 //using namespace std
 //cout<<"HELLO WORLD"<<endl;
@@ -38,7 +39,9 @@ static Ball ball;
 static Bone bone;
 static Bowl bowl;
 static Lamp lamp;
+static Window window;
 static Menu menu;
+
 
 GLuint loadBMP_custom(const char * imagepath){
 // Data read from the header of the BMP file
@@ -101,6 +104,7 @@ void displayFun(){
     bone.draw();
     bowl.draw();
     lamp.draw();
+    window.draw();
 	menu.draw();
 
     glutSwapBuffers();
@@ -218,6 +222,7 @@ void initialSetup(){
 
 
     lamp.init();
+    window.init();
 
 //    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 

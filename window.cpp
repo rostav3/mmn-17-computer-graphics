@@ -4,51 +4,34 @@
 #include <GL/glut.h>
 #include "window.h"
 
-static GLfloat light0Ambient[] = {0.2f, 0.2f, 0.2f, 1.0f};
-static GLfloat light0Diffuse[] = {0.9f,1.0f,0.8f,1.0f};
-static GLfloat light0Specular[] = {0.9f,1.0f,0.8f,1.0f};
-static GLfloat light0Position[] = {0.0, 0.0, 0.0, 1.0};
+static GLfloat ambient[] = {0.2f, 0.2f, 0.2f, 1.0f};
+static GLfloat diffuse[] = {0.9f,1.0f,0.8f,1.0f};
+static GLfloat specular[] = {0.9f,1.0f,0.8f,1.0f};
+static GLfloat position[] = {0.0, 0.0, 0.0, 1.0};
+static GLfloat direction[] = {0.0, 0.0, 0.0};
 
 
 void Window::init() {
-    glEnable(GL_LIGHT0);
-    glLightfv(GL_LIGHT0,GL_AMBIENT, light0Ambient);
-    glLightfv(GL_LIGHT0,GL_DIFFUSE, light0Diffuse);
-    glLightfv(GL_LIGHT0,GL_SPECULAR, light0Specular);
-    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 1.0);
-    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.1);
-    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.1);
+    glEnable(GL_LIGHT1);
+    glLightfv(GL_LIGHT1,GL_AMBIENT, ambient);
+    glLightfv(GL_LIGHT1,GL_DIFFUSE, diffuse);
+    glLightfv(GL_LIGHT1,GL_SPECULAR, specular);
+    glLightf(GL_LIGHT1, GL_CONSTANT_ATTENUATION, 1.0);
+    glLightf(GL_LIGHT1, GL_LINEAR_ATTENUATION, 0.1);
+    glLightf(GL_LIGHT1, GL_QUADRATIC_ATTENUATION, 0.1);
+
 }
 
-void Lamp::draw() {
-
-    // lamp base
+void Window::draw() {
     glPushMatrix();
-    glColor4f(0.5f,0.5f,0.5f, 1.0f);
-    glTranslated(1.8,0.025,1.8);
-    glScaled(0.5,0.2,0.5);
-    glRotatef(-90.0f, 1.0, 0.0, 0.0);
-    glutSolidCone(0.5,0.5,50,50);
-    glPopMatrix();
-
-
-    // lamp pole
-    glPushMatrix();
-    glColor4f(0.5f,0.5f,0.5f, 1.0f);
-    glTranslated(1.8,0.025,1.8);
-    GLUquadricObj *quadratic= gluNewQuadric();
-    glRotatef(-90.0f, 1.0, 0.0, 0.0);
-    gluCylinder(quadratic,0.03,0.03,1.1,50,50);
-    glPopMatrix();
-
-    // lamp head
-    glPushMatrix();
-    glColor4f(9.0f,1.0f,8.0f, 1.0f);
-    glTranslated(1.8,1.3,1.8);
-    glScaled(0.5,0.5,0.5);
+    glColor4f(0.8f,1.0f,0.6f, 1.0f);
+    glTranslated(-1.58,1,0.4);
+    glScaled(0.025,0.5,0.5);
     glDisable(GL_LIGHTING);
-    glutSolidSphere(0.4,50,50);
+    glutSolidCube(1.0);
     glEnable(GL_LIGHTING);
-    glLightfv(GL_LIGHT0, GL_POSITION, light0Position);
+    glLightfv(GL_LIGHT1, GL_POSITION, position);
     glPopMatrix();
+
+    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION,  direction);
 }
