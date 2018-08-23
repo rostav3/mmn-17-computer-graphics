@@ -24,6 +24,14 @@ class Dog {
     bool turnRight;
     bool turnLeft;
     int rotate;
+    int currentPosition;
+
+    // misc
+    static constexpr int NUM_POSITIONS = 4;
+    static constexpr int NUM_COORDINATES = 3;
+
+    static constexpr double POSITIONS[NUM_POSITIONS][NUM_COORDINATES] = {{0,0,1},{-1,0,0},{0,0,-1},{1,0,0}};
+
 
 
 public:

@@ -22,6 +22,7 @@ Dog::Dog() {
     turnRight = false;
     turnLeft = false;
     rotate = 0;
+    currentPosition = 0;
 }
 
 void Dog::draw(){
@@ -30,11 +31,13 @@ void Dog::draw(){
 
     glColor3f(0.8,0.5,0.2);
     if (walk){
-        z += 0.01;
+        x += 0.01*POSITIONS[currentPosition][0];
+        z +=  0.01*POSITIONS[currentPosition][2];
     }
     if (turnRight){
         rotate -= 5;
         if (rotate % 90 == 0){
+            currentPosition =  currentPosition == 3 ? 0 : currentPosition + 1;
             turnRight = false;
         }
     }
@@ -42,6 +45,7 @@ void Dog::draw(){
     if (turnLeft) {
         rotate += 5;
         if (rotate % 90 == 0) {
+            currentPosition =  currentPosition == 0 ? 3 : currentPosition - 1;
             turnLeft = false;
         }
     }
@@ -50,6 +54,9 @@ void Dog::draw(){
     glPushMatrix();
     glTranslated(x,y,z);
     glRotated(rotate, 0, 1, 0);
+
+    glPushMatrix();
+    glTranslated(-0.3,0,-0.3);
 
     // tail
     glPushMatrix();
@@ -152,6 +159,7 @@ void Dog::draw(){
     glPopMatrix();
 
 // end whole dog rotation
+    glPopMatrix();
     glPopMatrix();
 }
 
