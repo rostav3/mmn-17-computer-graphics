@@ -28,7 +28,7 @@ static constexpr GLdouble FAR = 10.0;
 
 // eye
 static constexpr GLdouble EYE_POS[NUM_COORDINATES] = {0.0, 2.0, 2.0};
-static constexpr GLdouble EYE_CENTER[NUM_COORDINATES] = {0.0, 1.0, 0.0};
+static constexpr GLdouble EYE_CENTER[NUM_COORDINATES] = {0.0, 0.0, 0.0};
 static constexpr GLdouble EYE_UP[NUM_COORDINATES] = {0.0, 1.0, 0.0};
 
 // objects
@@ -89,14 +89,12 @@ GLuint loadBMP_custom(const char * imagepath){
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glActiveTexture(GL_TEXTURE0);
-
     return 0;
 }
 
 
 void displayFun(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     room.draw();
     dog.draw();
     ball.draw();
@@ -106,7 +104,7 @@ void displayFun(){
 	menu.draw();
 
     glutSwapBuffers();
-    glutPostRedisplay();
+    glutPostRedisplay(); // TODO: move this to upon interaction
 }
 
 
@@ -204,41 +202,35 @@ void reshapeFun(int w, int h) {
     setCameraView();
 }
 
-static GLfloat light_color[] = {1.0f,0.0f,0.0f,0.5f};
-static GLfloat light_position[] = {0.0, 0.0, 0.0};
 
 void initialSetup(){
+
     glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
     glEnable(GL_AUTO_NORMAL);
     glEnable(GL_SMOOTH);
     glEnable(GL_BLEND);
-    glEnable(GL_DEPTH_TEST);
     glEnable(GL_COLOR_MATERIAL);
-//    glEnable(GL_NORMALIZE);
-
+    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+    glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
-//    glLightModelf(GL)
     glEnable(GL_LIGHTING);
+    glEnable(GL_DEPTH_TEST);
 
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-    glLightfv(GL_LIGHT0,GL_AMBIENT,light_color);
 
-//    glLightfv(GL_LIGHT0,GL_DIFFUSE,light_color);
-//    glLightfv(GL_LIGHT0,GL_SPECULAR,light_Intensity);
-//    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 100.0);
-//    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 5.0);
-//    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION,0.0);
-    glEnable(GL_LIGHT0);
+    lamp.init();
+
+//    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+
 
 //    GLfloat mat_ambient[]={0.7f,0.7f,0.7f,0.1f};
 //    GLfloat mat_diffuse[]={0.5f,0.5f,0.5f,1.0f};
 //    GLfloat mat_specular[]={1.0f,1.0f,1.0f,1.0f};
 //    GLfloat mat_shininess[]={20.0f};
-//
+////
 //    glMaterialfv(GL_FRONT,GL_AMBIENT,mat_ambient);
 //    glMaterialfv(GL_FRONT,GL_SPECULAR,mat_specular);
 //    glMaterialfv(GL_FRONT,GL_SHININESS,mat_shininess);
+
 
     setPerspectiveProjection((GLfloat) glutGet(GLUT_WINDOW_WIDTH) / (GLfloat) glutGet(GLUT_WINDOW_HEIGHT));
     setCameraView();

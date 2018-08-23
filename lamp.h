@@ -8,6 +8,7 @@
 
 class Lamp {
 public:
+	void init();
     void draw();
 };
 

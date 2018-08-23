@@ -6,14 +6,13 @@
 #include <GL/glut.h>
 
 void Room::draw(){
-//    glColor3f(0.8,0.8,0.8);
 
 //    glEnable(GL_TEXTURE_2D);
 //    glDisable(GL_TEXTURE_2D);
 
     // floor
     glPushMatrix();
-    glColor4f(0.3f,0.3f,0.3f, 1.0f);
+    glColor4f(0.5f,0.5f,0.5f, 1.0f);
     glTranslated(0.4,0,0.4);
     glScaled(4.0,0.025,4.0);
     glutSolidCube(1.0);

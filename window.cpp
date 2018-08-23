@@ -2,7 +2,7 @@
 // Created by stav on 22/08/18.
 //
 #include <GL/glut.h>
-#include "lamp.h"
+#include "window.h"
 
 static GLfloat light0Ambient[] = {0.2f, 0.2f, 0.2f, 1.0f};
 static GLfloat light0Diffuse[] = {0.9f,1.0f,0.8f,1.0f};
@@ -10,7 +10,7 @@ static GLfloat light0Specular[] = {0.9f,1.0f,0.8f,1.0f};
 static GLfloat light0Position[] = {0.0, 0.0, 0.0, 1.0};
 
 
-void Lamp::init() {
+void Window::init() {
     glEnable(GL_LIGHT0);
     glLightfv(GL_LIGHT0,GL_AMBIENT, light0Ambient);
     glLightfv(GL_LIGHT0,GL_DIFFUSE, light0Diffuse);
