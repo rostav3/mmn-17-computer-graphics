@@ -182,6 +182,12 @@ void keyboardFun(unsigned char key, int x, int y) {
         case '6':
             dog.setWalk(false);
             break;
+        case '7':
+            dog.setTurnRight();
+            break;
+        case '8':
+            dog.setTurnLeft();
+            break;
         default:
             return;
     }
