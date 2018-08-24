@@ -48,6 +48,4 @@ void Room::draw(){
     glScaled(0.025,2.0,4.0);
     glutSolidCube(1.0);
     glPopMatrix();
-
-
 }

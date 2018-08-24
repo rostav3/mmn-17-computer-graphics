@@ -169,7 +169,7 @@ void Dog::draw(){
 }
 
 bool Dog::isBlocked(){
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < NUM_OBJECTS; ++i) {
         if (OBJECTS_SQUARES[i].isInBlock(x,z))
             return true;
     }
