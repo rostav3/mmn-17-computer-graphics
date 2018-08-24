@@ -142,7 +142,10 @@ void Dog::draw(){
 
     // nose
     glPushMatrix();
-    glTranslated(0.25 + (headRightAndLeft ? pow(-1,animationCounter%2)/100 : 0),0.42 +  (headUpAndDown ? pow(-1,animationCounter%2)/100 : 0),0.6);
+    noseX = 0.25 + (headRightAndLeft ? pow(-1,animationCounter%2)/100 : 0);
+    noseY =  0.42 +  (headUpAndDown ? pow(-1,animationCounter%2)/100 : 0);
+    noseZ = 0.6;
+    glTranslated(noseX, noseY, noseZ);
     glScaled(0.02,0.02,0.02);
     glutSolidSphere(0.8, 50, 50);
     glPopMatrix();
@@ -164,7 +167,7 @@ void Dog::draw(){
     glutSolidSphere(0.8, 50, 50);
     glPopMatrix();
 
-// end whole dog rotation
+    // end whole dog rotation
     glPopMatrix();
     glPopMatrix();
 }
@@ -267,4 +270,20 @@ void Dog::setTurnLeft(bool val){
 
 bool Dog::getTurnLeft(){
     return turnLeft;
+}
+
+double Dog::getNoseX(){
+    return noseX-x;
+}
+
+double Dog::getNoseY(){
+    return noseY+y;
+}
+
+double Dog::getNoseZ(){
+    return noseZ-z;
+}
+
+double Dog::getRotate() {
+    return rotate;
 }

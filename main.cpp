@@ -28,7 +28,9 @@ static constexpr GLdouble FAR = 10.0;
 // eye
 static constexpr GLdouble EYE_POS[NUM_COORDINATES] = {0.0, 2.0, 2.0};
 static constexpr GLdouble EYE_CENTER[NUM_COORDINATES] = {0.0, 0.0, 0.0};
+static constexpr GLdouble EYE_CENTER_DOG[NUM_COORDINATES] = {0.0, 0.4, 0.0};
 static constexpr GLdouble EYE_UP[NUM_COORDINATES] = {0.0, 1.0, 0.0};
+
 
 
 // objects
@@ -42,6 +44,8 @@ static Window window;
 static Floor floor;
 static Menu menu;
 
+static double prevCameraRotate = 180;
+static bool isDogPosition = false;
 
 GLuint loadBMP_custom(const char * imagepath){
 // Data read from the header of the BMP file
@@ -96,6 +100,15 @@ GLuint loadBMP_custom(const char * imagepath){
 }
 
 
+void setCameraView() {
+    glLoadIdentity();
+    if (isDogPosition){
+        gluLookAt(dog.getNoseX(), dog.getNoseY(), dog.getNoseZ(), EYE_CENTER_DOG[0], EYE_CENTER_DOG[1], EYE_CENTER_DOG[2], EYE_UP[0], EYE_UP[1], EYE_UP[2]);
+    }else{
+        gluLookAt(EYE_POS[0], EYE_POS[1], EYE_POS[2], EYE_CENTER[0], EYE_CENTER[1], EYE_CENTER[2], EYE_UP[0], EYE_UP[1], EYE_UP[2]);
+    }
+}
+
 void displayFun(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     room.draw();
@@ -108,6 +121,17 @@ void displayFun(){
     window.draw();
 	menu.draw(&dog);
 
+	if ((isDogPosition != menu.getShowDogEyes()) || ((isDogPosition) && (dog.getWalk()))){
+        isDogPosition = menu.getShowDogEyes();
+        setCameraView();
+	}
+
+    if (isDogPosition){
+//        glPushMatrix();
+        glRotated(prevCameraRotate-dog.getRotate(), 0, 1, 0);
+        prevCameraRotate = dog.getRotate();
+//        glPopMatrix();
+    }
     glutSwapBuffers();
     glutPostRedisplay(); // TODO: move this to upon interaction
 }
@@ -153,10 +177,6 @@ void setPerspectiveProjection(GLfloat aspect) {
     glMatrixMode(GL_MODELVIEW);
 }
 
-void setCameraView() {
-    glLoadIdentity();
-    gluLookAt(EYE_POS[0], EYE_POS[1], EYE_POS[2], EYE_CENTER[0], EYE_CENTER[1], EYE_CENTER[2], EYE_UP[0], EYE_UP[1], EYE_UP[2]);
-}
 
 void reshapeFun(int w, int h) {
     menu.reshape(w, h);
@@ -198,7 +218,6 @@ int main(int argc, char **argv) {
     glutDisplayFunc(displayFun);
     glutReshapeFunc(reshapeFun);
     glutKeyboardFunc(keyboardFun);
-
 
     GLuint image = loadBMP_custom("../resources/floor_tiles.bmp");
 

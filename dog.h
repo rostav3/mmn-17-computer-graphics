@@ -23,10 +23,14 @@ class Dog {
     double x;
     double y;
     double z;
+    double noseX;
+    double noseY;
+    double noseZ;
     bool turnRight;
     bool turnLeft;
     int rotate;
     int currentPosition;
+
 
     // misc
     static constexpr int NUM_POSITIONS = 4;
@@ -96,5 +100,11 @@ public:
     bool getTurnLeft();
 
     bool isBlocked();
+
+    double getNoseX();
+    double getNoseY();
+    double getNoseZ();
+
+    double getRotate();
 };
 #endif //MMN17COMPUTERGRAPHICS_DOG_H

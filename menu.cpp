@@ -24,6 +24,8 @@ static bool show_head_right_and_left;
 static bool show_tail_up_and_down;
 static bool show_tail_right_and_left;
 
+static bool show_dog_eyes;
+
 
 void Menu::setup(){
 	// Setup ImGui binding
@@ -46,6 +48,10 @@ void Menu::cleanup(){
 	ImGui_ImplOpenGL2_Shutdown();
 	ImGui_ImplFreeGLUT_Shutdown();
 	ImGui::DestroyContext();
+}
+
+bool Menu::getShowDogEyes(){
+	return show_dog_eyes;
 }
 
 void Menu::draw(Dog* dog) {
@@ -108,6 +114,13 @@ void Menu::draw(Dog* dog) {
 
     ImGui::Checkbox("move tail up&down", &show_tail_up_and_down);
     dog->setTailUpAndDown(show_tail_up_and_down);
+
+    // Camera
+    ImGui::Spacing();
+    ImGui::Text("Camera");
+    ImGui::Checkbox("dog eyes", &show_dog_eyes);
+
+//    dog->setTailRightAndLeft(show_tail_right_and_left);
 
 
 //    ‫‪adjust‬‬ ‫‪ambient‬‬ ‫‪light‬‬

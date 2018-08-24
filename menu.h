@@ -14,6 +14,7 @@ public:
     void cleanup();
 	void reshape(int w, int h);
 	void keyboard(int key, int x, int y);
+	bool getShowDogEyes();
 };
 
 
