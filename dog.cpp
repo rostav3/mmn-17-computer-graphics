@@ -15,14 +15,14 @@ Dog::Dog() {
     tailRightAndLeft = false;
     headRightAndLeft = false;
     headUpAndDown = false;
-    x = 0;
-    y = 0;
-    z = 0;
-
     turnRight = false;
     turnLeft = false;
     rotate = 0;
     currentPosition = 0;
+
+    x = 0;
+    y = 0;
+    z = 0;
 }
 
 void Dog::draw(){
@@ -33,6 +33,11 @@ void Dog::draw(){
     if (walk){
         x += 0.01*POSITIONS[currentPosition][0];
         z +=  0.01*POSITIONS[currentPosition][2];
+
+        if (isBlocked()){
+            x -= 0.01*POSITIONS[currentPosition][0];
+            z -=  0.01*POSITIONS[currentPosition][2];
+        }
     }
     if (turnRight){
         rotate -= 5;
@@ -163,6 +168,13 @@ void Dog::draw(){
     glPopMatrix();
 }
 
+bool Dog::isBlocked(){
+    for (int i = 0; i < 4; ++i) {
+        if (OBJECTS_SQUARES[i].isInBlock(x,z))
+            return true;
+    }
+    return false;
+}
 void Dog::setTailUpAndDown(bool val){
     tailUpAndDown = val;
 }

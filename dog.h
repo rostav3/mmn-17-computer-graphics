@@ -1,6 +1,8 @@
 //
 // Created by stav on 22/08/18.
 //
+#include "blockedSquare.h"
+
 
 #ifndef MMN17COMPUTERGRAPHICS_DOG_H
 #define MMN17COMPUTERGRAPHICS_DOG_H
@@ -30,9 +32,15 @@ class Dog {
     static constexpr int NUM_POSITIONS = 4;
     static constexpr int NUM_COORDINATES = 3;
 
-    static constexpr double POSITIONS[NUM_POSITIONS][NUM_COORDINATES] = {{0,0,1},{-1,0,0},{0,0,-1},{1,0,0}};
-
-
+    static constexpr double POSITIONS[NUM_POSITIONS][NUM_COORDINATES] = {{0,  0, 1},
+                                                                         {-1, 0, 0},
+                                                                         {0,  0, -1},
+                                                                         {1,  0, 0}};
+//    BlockedSquare OBJECTS_SQUARES[1] = {BlockedSquare(-1.32, 0.6, -1.08, 1.3)};
+    BlockedSquare OBJECTS_SQUARES[4] = {BlockedSquare(-1.5, 0.7, -0.9, 1.3),
+                                        BlockedSquare(0.7, -1, 1.3, -0.4),
+                                        BlockedSquare(-0.8, -0.55, -0.34, -0.05),
+                                        BlockedSquare(1.3, 1.3, 2.3, 2.3)};
 
 public:
     Dog();
@@ -58,7 +66,10 @@ public:
     void setWalk(bool val);
 
     void setTurnRight();
+
     void setTurnLeft();
+
+    bool isBlocked();
 };
 
 #endif //MMN17COMPUTERGRAPHICS_DOG_H

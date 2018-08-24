@@ -28,14 +28,12 @@ void Bone::draw() {
 
 	glPushMatrix();
 	glTranslated(-0.6,0.06,-0.35);
-	glScaled(0.06,0.06,0.06);
-	glutSolidSphere(0.8, 50, 50);
+	glutSolidSphere(0.048, 50, 50);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslated(-0.54,0.06,-0.35);
-	glScaled(0.06,0.06,0.06);
-	glutSolidSphere(0.8, 50, 50);
+	glutSolidSphere(0.048, 50, 50);
 	glPopMatrix();
 
 	glPushMatrix();
@@ -46,14 +44,12 @@ void Bone::draw() {
 
 	glPushMatrix();
 	glTranslated(-0.6,0.06,-0.15);
-	glScaled(0.06,0.06,0.06);
-	glutSolidSphere(0.8, 50, 50);
+	glutSolidSphere(0.048, 50, 50);
 	glPopMatrix();
 
 	glPushMatrix();
 	glTranslated(-0.54,0.06,-0.15);
-	glScaled(0.06,0.06,0.06);
-	glutSolidSphere(0.8, 50, 50);
+	glutSolidSphere(0.048, 50, 50);
 	glPopMatrix();
 }
 
