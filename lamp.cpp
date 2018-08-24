@@ -1,9 +1,6 @@
-/*----------------------------------------------------------------------------------------------------------------------
- * This class represent the lamp.
- * Author: Roman Smirnov 312914443, Stav Rockah 307900878
- * -------------------------------------------------------------------------------------------------------------------*/
-
- // includes
+//
+// Created by stav on 22/08/18.
+//
 #include <GL/glut.h>
 #include "lamp.h"
 
@@ -13,9 +10,15 @@ static GLfloat light0Specular[] = {0.9f,1.0f,0.8f,1.0f};
 static GLfloat light0Position[] = {0.0, 0.0, 0.0, 1.0};
 
 
-/*----------------------------------------------------------------------------------------------------------------------
- * This method initialize the lamp light.
- * -------------------------------------------------------------------------------------------------------------------*/
+
+static GLfloat materialAmbient[] = {0.33, 0.33, 0.33, 1.0};
+static GLfloat materialDiffuse[] = {0.78, 0.78, 0.78, 1.0};
+static GLfloat materialSpecular[] = {0.99, 0.99, 0.99, 1.0};
+static GLfloat materialShininess = 27.8;
+
+
+
+
 void Lamp::init() {
     glEnable(GL_LIGHT0);
     glLightfv(GL_LIGHT0,GL_AMBIENT, light0Ambient);
@@ -26,10 +29,12 @@ void Lamp::init() {
     glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.1);
 }
 
-/*----------------------------------------------------------------------------------------------------------------------
- * This method handle the draw of the lamp
- * -------------------------------------------------------------------------------------------------------------------*/
 void Lamp::draw() {
+
+    glMaterialfv(GL_FRONT, GL_AMBIENT, materialAmbient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, materialDiffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, materialSpecular);
+    glMaterialf(GL_FRONT, GL_SHININESS, materialShininess);
 
     // lamp base
     glPushMatrix();
@@ -40,6 +45,7 @@ void Lamp::draw() {
     glutSolidCone(0.5,0.5,50,50);
     glPopMatrix();
 
+
     // lamp pole
     glPushMatrix();
     glColor4f(0.5f,0.5f,0.5f, 1.0f);
@@ -48,6 +54,7 @@ void Lamp::draw() {
     glRotatef(-90.0f, 1.0, 0.0, 0.0);
     gluCylinder(quadratic,0.03,0.03,1.1,50,50);
     glPopMatrix();
+
 
     // lamp head
     glPushMatrix();

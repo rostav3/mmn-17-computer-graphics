@@ -1,17 +1,16 @@
-/*----------------------------------------------------------------------------------------------------------------------
- * Main file, run all the program
- * Author: Roman Smirnov 312914443, Stav Rockah 307900878
- * -------------------------------------------------------------------------------------------------------------------*/
 
 // includes
 #include <GL/glut.h>
-#include <iostream>
+#include "dog.h"
 #include "room.h"
 #include "items.h"
 #include "lamp.h"
 #include "menu.h"
 #include "window.h"
 #include "floor.h"
+
+//using namespace std
+//cout<<"HELLO WORLD"<<endl;
 
 // misc
 static constexpr GLsizei NUM_COORDINATES = 3;
@@ -32,7 +31,6 @@ static constexpr GLdouble EYE_CENTER[NUM_COORDINATES] = {0.0, 0.0, 0.0};
 static constexpr GLdouble EYE_UP[NUM_COORDINATES] = {0.0, 1.0, 0.0};
 
 
-
 // objects
 static Room room;
 static Dog dog;
@@ -41,107 +39,43 @@ static Bone bone;
 static Bowl bowl;
 static Lamp lamp;
 static Window window;
-static Floor floor;
 static Menu menu;
+static Floor floor;
 
-// camera as dog eyes.
-static double prevCameraRotate = 0;
-static bool isDogPosition = false;
 
-/*----------------------------------------------------------------------------------------------------------------------
- * This method load texture.
- * -------------------------------------------------------------------------------------------------------------------*/
-GLuint loadBMP(const char * imagepath){
-    // Data read from the header of the BMP file
 
-    // Each BMP file begins by a 54-bytes header
-    unsigned char header[54];
-    // Position in the file where the actual data begins
-    unsigned int dataPos;
-    unsigned int width, height;
-    unsigned int imageSize;
-    unsigned char * data;
-    FILE * file = fopen(imagepath,"rb");
+static void myShadowMatrix(float ground[4], float light[4]) {
+	float dot;
+	float shadowMat[4][4];
 
-    // check if the file is okay.
-    if (!file) {
-        printf("Image could not be opened\n");
-        return 0;
-    }
+	dot = ground[0] * light[0] + ground[1] * light[1] + ground[2] * light[2] + ground[3] * light[3];
 
-    // If not 54 bytes read : problem
-    if ( fread(header, 1, 54, file)!=54 ){
-        printf("Not a correct BMP file\n");
-        return 0;
-    }
-    if ( header[0]!='B' || header[1]!='M' ){
-        printf("Not a correct BMP file\n");
-        return 0;
-    }
+	shadowMat[0][0] = dot - light[0] * ground[0];
+	shadowMat[1][0] = 0.0f - light[0] * ground[1];
+	shadowMat[2][0] = 0.0f - light[0] * ground[2];
+	shadowMat[3][0] = 0.0f - light[0] * ground[3];
 
-    // Read ints from the byte array
-    dataPos    = *(unsigned int*)&(header[0x0A]);
-    imageSize  = *(unsigned int*)&(header[0x22]);
-    width      = *(unsigned int*)&(header[0x12]);
-    height     = *(unsigned int*)&(header[0x16]);
+	shadowMat[0][1] = 0.0f - light[1] * ground[0];
+	shadowMat[1][1] = dot - light[1] * ground[1];
+	shadowMat[2][1] = 0.0f - light[1] * ground[2];
+	shadowMat[3][1] = 0.0f - light[1] * ground[3];
 
-    // 3 : one byte for each Red, Green and Blue component
-    if (imageSize==0){
-        imageSize=width*height*3;
-    }
+	shadowMat[0][2] = 0.0f - light[2] * ground[0];
+	shadowMat[1][2] = 0.0f - light[2] * ground[1];
+	shadowMat[2][2] = dot - light[2] * ground[2];
+	shadowMat[3][2] = 0.0f - light[2] * ground[3];
 
-    // The BMP header is done that way
-    if (dataPos==0) {
-        dataPos=54;
-    }
+	shadowMat[0][3] = 0.0f - light[3] * ground[0];
+	shadowMat[1][3] = 0.0f - light[3] * ground[1];
+	shadowMat[2][3] = 0.0f - light[3] * ground[2];
+	shadowMat[3][3] = dot - light[3] * ground[3];
 
-    // Create ְa buffer
-    data = new unsigned char [imageSize];
-
-    // Read the actual data from the file into the buffer
-    fread(data,1,imageSize,file);
-
-    //Everything is in memory now, the file can be closed
-    fclose(file);
-
-    // Create one OpenGL texture
-    GLuint textureID;
-    glGenTextures(1, &textureID);
-
-    // "Bind" the newly created texture : all future texture functions will modify this texture
-    glBindTexture(GL_TEXTURE_2D, textureID);
-
-    // Give the image to OpenGL
-    glTexImage2D(GL_TEXTURE_2D, 0,GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glActiveTexture(GL_TEXTURE0);
-    return 0;
+	glMultMatrixf((const GLfloat *) shadowMat);
 }
 
 
-/*----------------------------------------------------------------------------------------------------------------------
- * This method set the camera position
- * -------------------------------------------------------------------------------------------------------------------*/
-void setCameraView() {
-    glLoadIdentity();
-    if (isDogPosition){
-        gluLookAt(dog.getNoseX(), dog.getNoseY(), dog.getNoseZ(), dog.getLookAtX(), dog.getLookAtY(), dog.getLookAtZ(),
-                EYE_UP[0], EYE_UP[1], EYE_UP[2]);
-    }else{
-        gluLookAt(EYE_POS[0], EYE_POS[1], EYE_POS[2], EYE_CENTER[0], EYE_CENTER[1], EYE_CENTER[2], EYE_UP[0], EYE_UP[1],
-                EYE_UP[2]);
-    }
-}
-
-/*----------------------------------------------------------------------------------------------------------------------
- * This method handle all the display.
- * -------------------------------------------------------------------------------------------------------------------*/
 void displayFun(){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     room.draw();
     floor.draw();
     dog.draw();
@@ -150,32 +84,16 @@ void displayFun(){
     bowl.draw();
     lamp.draw();
     window.draw();
-	menu.draw(&dog, &window);
-
-	// change camera position if change from regular to dog look or walking in doe look, or make any animation.
-	if ((isDogPosition != menu.getShowDogEyes()) || ((isDogPosition) && (dog.getWalk() || dog.getHeadRightAndLeft() || dog.getHeadUpAndDown()))){
-        isDogPosition = menu.getShowDogEyes();
-        setCameraView();
-	}
-
-	// rotate in case of dog look.
-    if (isDogPosition){
-        glRotated(prevCameraRotate-dog.getRotate(), 0, 1, 0);
-        prevCameraRotate = dog.getRotate();
-    }
+	menu.draw();
 
     glutSwapBuffers();
-    glutPostRedisplay();
+    glutPostRedisplay(); // TODO: move this to upon interaction
 }
 
 
-/*----------------------------------------------------------------------------------------------------------------------
- * This method handle all the keyboard
- * -------------------------------------------------------------------------------------------------------------------*/
+
+
 void keyboardFun(unsigned char key, int x, int y) {
-    if (dog.getWalk()){
-        return;
-    }
     menu.keyboard(key, x, y);
     switch (key) {
         case 'w':
@@ -202,14 +120,59 @@ void keyboardFun(unsigned char key, int x, int y) {
         case '-':
             glScalef(0.9f, 0.9f, 0.9f);
             break;
+        case 'o':
+            dog.setTailUpAndDown(true);
+            break;
+        case 'p':
+            dog.setTailUpAndDown(false);
+            break;
+        case 'u':
+            dog.setTailRightAndLeft(true);
+            break;
+        case 'i':
+            dog.setTailRightAndLeft(false);
+            break;
+        case 'O':
+            dog.setHeadUpAndDown(true);
+            break;
+        case 'P':
+            dog.setHeadUpAndDown(false);
+            break;
+        case 'U':
+            dog.setHeadRightAndLeft(true);
+            break;
+        case 'I':
+            dog.setHeadRightAndLeft(false);
+            break;
+        case '1':
+            dog.setMoveBackLeftLeg(true);
+            break;
+        case '2':
+            dog.setMoveTopLeftLeg(true);
+            break;
+        case '3':
+            dog.setMoveBackRightLeg(true);
+            break;
+        case '4':
+            dog.setMoveTopRightLeg(true);
+            break;
+        case '5':
+            dog.setWalk(true);
+            break;
+        case '6':
+            dog.setWalk(false);
+            break;
+        case '7':
+            dog.setTurnRight();
+            break;
+        case '8':
+            dog.setTurnLeft();
+            break;
         default:
             return;
     }
 }
 
-/*----------------------------------------------------------------------------------------------------------------------
- * This method set the perspective projection.
- * -------------------------------------------------------------------------------------------------------------------*/
 void setPerspectiveProjection(GLfloat aspect) {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
@@ -217,10 +180,11 @@ void setPerspectiveProjection(GLfloat aspect) {
     glMatrixMode(GL_MODELVIEW);
 }
 
+void setCameraView() {
+    glLoadIdentity();
+    gluLookAt(EYE_POS[0], EYE_POS[1], EYE_POS[2], EYE_CENTER[0], EYE_CENTER[1], EYE_CENTER[2], EYE_UP[0], EYE_UP[1], EYE_UP[2]);
+}
 
-/*----------------------------------------------------------------------------------------------------------------------
- * This method all the reshape of the menu and the world.
- * -------------------------------------------------------------------------------------------------------------------*/
 void reshapeFun(int w, int h) {
     menu.reshape(w, h);
     glViewport(0, 0, w, h);
@@ -228,11 +192,13 @@ void reshapeFun(int w, int h) {
     setCameraView();
 }
 
-/*----------------------------------------------------------------------------------------------------------------------
- * This method init the setup
- * -------------------------------------------------------------------------------------------------------------------*/
+
 void initialSetup(){
-    glEnable(GL_CULL_FACE);
+
+    menu.setup();
+
+//    glEnable(GL_CULL_FACE);
+    glEnable(GL_STENCIL_TEST);
     glEnable(GL_AUTO_NORMAL);
     glEnable(GL_SMOOTH);
     glEnable(GL_BLEND);
@@ -247,31 +213,30 @@ void initialSetup(){
 
     lamp.init();
     window.init();
+    floor.init();
 
     setPerspectiveProjection((GLfloat) glutGet(GLUT_WINDOW_WIDTH) / (GLfloat) glutGet(GLUT_WINDOW_HEIGHT));
     setCameraView();
 }
 
-/*----------------------------------------------------------------------------------------------------------------------
- * This is the main method
- * -------------------------------------------------------------------------------------------------------------------*/
+
 int main(int argc, char **argv) {
     glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH );
     glutInitWindowSize(WIN_WIDTH, WIN_HEIGHT);
-    glutInitWindowPosition(glutGet(GLUT_SCREEN_WIDTH) / 2 - WIN_WIDTH / 2, glutGet(GLUT_SCREEN_HEIGHT) / 2 -
-                            WIN_HEIGHT / 2);
+    glutInitWindowPosition(glutGet(GLUT_SCREEN_WIDTH) / 2 - WIN_WIDTH / 2, glutGet(GLUT_SCREEN_HEIGHT) / 2 - WIN_HEIGHT / 2);
     glutCreateWindow(WIN_NAME);
     glutDisplayFunc(displayFun);
     glutReshapeFunc(reshapeFun);
     glutKeyboardFunc(keyboardFun);
 
-    // load floor texture
-    GLuint image = loadBMP("../resources/floor_tiles.bmp");
 
     initialSetup();
-    menu.setup();
+
     glutMainLoop();
+
     menu.cleanup();
+
     return 0;
+
 }

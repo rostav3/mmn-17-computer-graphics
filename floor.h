@@ -9,6 +9,7 @@
 
 class Floor{
 public:
+	void init();
     void draw();
 };
 
