@@ -6,6 +6,7 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_freeglut.h"
 #include "imgui/imgui_impl_opengl2.h"
+#include <cstdlib>
 
 static bool show_another_window = false;
 static bool show_walk;
@@ -124,9 +125,14 @@ void Menu::draw(Dog* dog) {
 //	ImGui::Checkbox("Keyboard Control Light", &show_demo_window);
 //	ImGui::SliderFloat("Intensity", &f, 0.0f, 1.0f);
 	ImGui::Spacing();
-	ImGui::Button("Help");
 
-	ImGui::Spacing();
+    if (ImGui::Button("Help")){
+        system ("xdg-open /home/stav/Dropbox/SRSR/2018b/graphics/computer_graphics_mmn_14_roman_smirnov.pdf");
+    }
+
+
+
+    ImGui::Spacing();
 	if (ImGui::Button("Quit")){
 //        glutLeaveMainLoop();
         glutDestroyWindow(1);
