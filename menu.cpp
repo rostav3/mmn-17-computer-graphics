@@ -63,8 +63,6 @@ void Menu::draw(Dog* dog, Window* window) {
 
 
     ImGui::Spacing();
-    ImGui::Text("Options");
-
 	ImGui::Spacing();
 	ImGui::Text("adjust ambient light");
 	ImGui::Spacing();
@@ -81,7 +79,7 @@ void Menu::draw(Dog* dog, Window* window) {
 		window->setZ(window->getZ() - 0.1);
 	}
 
-
+	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::Text("Dog Options");
 
@@ -98,6 +96,7 @@ void Menu::draw(Dog* dog, Window* window) {
 	dog->setTurnLeft(show_turn_left);
 
 	// Dog legs options
+	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::Text("Dog legs");
 
@@ -116,7 +115,8 @@ void Menu::draw(Dog* dog, Window* window) {
 	}
 
     // Dog head
-    ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
     ImGui::Text("Dog head");
     ImGui::Checkbox("move head right&left", &show_head_right_and_left);
     dog->setHeadRightAndLeft(show_head_right_and_left);
@@ -125,7 +125,8 @@ void Menu::draw(Dog* dog, Window* window) {
     dog->setHeadUpAndDown(show_head_up_and_down);
 
     // Dog tail
-    ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
     ImGui::Text("Dog tail");
     ImGui::Checkbox("move tail right&left", &show_tail_right_and_left);
     dog->setTailRightAndLeft(show_tail_right_and_left);
@@ -134,17 +135,20 @@ void Menu::draw(Dog* dog, Window* window) {
     dog->setTailUpAndDown(show_tail_up_and_down);
 
     // Camera
-    ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::Spacing();
     ImGui::Text("Camera");
     ImGui::Checkbox("dog eyes", &show_dog_eyes);
 
 	ImGui::Spacing();
-    if (ImGui::Button("Help")){
+	ImGui::Spacing();
+	if (ImGui::Button("Help")){
         system ("xdg-open ../resources/help.pdf");
     }
 
 
     ImGui::Spacing();
+	ImGui::Spacing();
 	if (ImGui::Button("Quit")){
         glutDestroyWindow(1);
 	}
