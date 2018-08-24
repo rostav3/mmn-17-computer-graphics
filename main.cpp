@@ -2,7 +2,6 @@
 // includes
 #include <GL/glut.h>
 #include <iostream>
-#include "dog.h"
 #include "room.h"
 #include "items.h"
 #include "lamp.h"
@@ -40,8 +39,8 @@ static Bone bone;
 static Bowl bowl;
 static Lamp lamp;
 static Window window;
-static Menu menu;
 static Floor floor;
+static Menu menu;
 
 
 GLuint loadBMP_custom(const char * imagepath){
@@ -107,7 +106,7 @@ void displayFun(){
     bowl.draw();
     lamp.draw();
     window.draw();
-	menu.draw();
+	menu.draw(&dog);
 
     glutSwapBuffers();
     glutPostRedisplay(); // TODO: move this to upon interaction
@@ -141,54 +140,6 @@ void keyboardFun(unsigned char key, int x, int y) {
             break;
         case '-':
             glScalef(0.9f, 0.9f, 0.9f);
-            break;
-        case 'o':
-            dog.setTailUpAndDown(true);
-            break;
-        case 'p':
-            dog.setTailUpAndDown(false);
-            break;
-        case 'u':
-            dog.setTailRightAndLeft(true);
-            break;
-        case 'i':
-            dog.setTailRightAndLeft(false);
-            break;
-        case 'O':
-            dog.setHeadUpAndDown(true);
-            break;
-        case 'P':
-            dog.setHeadUpAndDown(false);
-            break;
-        case 'U':
-            dog.setHeadRightAndLeft(true);
-            break;
-        case 'I':
-            dog.setHeadRightAndLeft(false);
-            break;
-        case '1':
-            dog.setMoveBackLeftLeg(true);
-            break;
-        case '2':
-            dog.setMoveTopLeftLeg(true);
-            break;
-        case '3':
-            dog.setMoveBackRightLeg(true);
-            break;
-        case '4':
-            dog.setMoveTopRightLeg(true);
-            break;
-        case '5':
-            dog.setWalk(true);
-            break;
-        case '6':
-            dog.setWalk(false);
-            break;
-        case '7':
-            dog.setTurnRight();
-            break;
-        case '8':
-            dog.setTurnLeft();
             break;
         default:
             return;

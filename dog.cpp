@@ -19,6 +19,7 @@ Dog::Dog() {
     turnLeft = false;
     rotate = 0;
     currentPosition = 0;
+    walk = false;
 
     x = 0;
     y = 0;
@@ -65,7 +66,7 @@ void Dog::draw(){
 
     // tail
     glPushMatrix();
-    glTranslated(0.25,0.15,0.15);
+    glTranslated(0.25,0.15,0.175);
     glRotatef(45.0f,  tailUpAndDown ? (GLfloat)pow(-1,animationCounter%2) : 0, tailRightAndLeft ? (GLfloat)pow(-1,animationCounter%2) : 0, 0.0);
     glScaled(0.03,0.03,0.08);
     glutSolidSphere(1.0, 50, 50);
@@ -215,11 +216,55 @@ void Dog::setWalk(bool val){
 
 }
 
-void Dog::setTurnRight(){
-    turnRight = true;
 
+bool Dog::getTailUpAndDown(){
+    return tailUpAndDown;
 }
-void Dog::setTurnLeft(){
-    turnLeft = true;
 
+bool Dog::getTailRightAndLeft(){
+    return tailRightAndLeft;
+}
+
+bool Dog::getHeadUpAndDown(){
+    return headUpAndDown;
+}
+
+bool Dog::getHeadRightAndLeft(){
+    return headRightAndLeft;
+}
+
+bool Dog::getMoveTopRightLeg(){
+    return moveTopRightLeg;
+}
+
+bool Dog::getMoveTopLeftLeg(){
+    return moveTopLeftLeg;
+}
+
+bool Dog::getMoveBackRightLeg(){
+    return moveBackRightLeg;
+}
+
+bool Dog::getMoveBackLeftLeg(){
+    return moveBackLeftLeg;
+}
+
+bool Dog::getWalk(){
+    return walk;
+}
+
+void Dog::setTurnRight(bool val){
+    turnRight = val;
+}
+
+bool Dog::getTurnRight(){
+    return turnRight;
+}
+
+void Dog::setTurnLeft(bool val){
+    turnLeft = val;
+}
+
+bool Dog::getTurnLeft(){
+    return turnLeft;
 }
