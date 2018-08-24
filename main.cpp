@@ -28,7 +28,6 @@ static constexpr GLdouble FAR = 10.0;
 // eye
 static constexpr GLdouble EYE_POS[NUM_COORDINATES] = {0.0, 2.0, 2.0};
 static constexpr GLdouble EYE_CENTER[NUM_COORDINATES] = {0.0, 0.0, 0.0};
-//static constexpr GLdouble EYE_CENTER_DOG[NUM_COORDINATES] = {0.0, 0.4, 0.0};
 static constexpr GLdouble EYE_UP[NUM_COORDINATES] = {0.0, 1.0, 0.0};
 
 
@@ -122,7 +121,6 @@ void displayFun(){
 	menu.draw(&dog);
 
 	if ((isDogPosition != menu.getShowDogEyes()) || ((isDogPosition) && (dog.getWalk() || dog.getHeadRightAndLeft() || dog.getHeadUpAndDown()))){
-//        prevCameraRotate = 20;
         isDogPosition = menu.getShowDogEyes();
         setCameraView();
 	}
@@ -161,6 +159,19 @@ void keyboardFun(unsigned char key, int x, int y) {
         case 'q':
             glRotatef(-5.0f, 0.0f, 0.0f, 1.0f);
             break;
+        case 'g':
+            window.setZ(window.getZ() +0.1);
+            break;
+        case 'y':
+            window.setY(window.getY() +0.1);
+            break;
+        case 'h':
+            window.setY(window.getY() -0.1);
+            break;
+        case 'j':
+            window.setZ(window.getZ() -0.1);
+            break;
+
         case '=':
             glScalef(1.1f, 1.1f, 1.1f);
             break;
