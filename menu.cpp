@@ -120,34 +120,14 @@ void Menu::draw(Dog* dog) {
     ImGui::Text("Camera");
     ImGui::Checkbox("dog eyes", &show_dog_eyes);
 
-//    dog->setTailRightAndLeft(show_tail_right_and_left);
-
-
-//    ‫‪adjust‬‬ ‫‪ambient‬‬ ‫‪light‬‬
-
-//	ImGui::Spacing();
-//	ImGui::Text("Camera Options");
-//	ImGui::Checkbox("Keyboard Control Camera", &show_demo_window);
-//
-//	ImGui::Spacing();
-//	ImGui::Text("Ambient Light Options");
-//	ImGui::SliderFloat("Intensity", &f, 0.0f, 1.0f);
-//
-//	ImGui::Spacing();
-//	ImGui::Text("Point Light Options");
-//	ImGui::Checkbox("Keyboard Control Light", &show_demo_window);
-//	ImGui::SliderFloat("Intensity", &f, 0.0f, 1.0f);
 	ImGui::Spacing();
-
     if (ImGui::Button("Help")){
-        system ("xdg-open /home/stav/Dropbox/SRSR/2018b/graphics/computer_graphics_mmn_14_roman_smirnov.pdf");
+        system ("xdg-open ../resources/help.pdf");
     }
 
-
-
+    
     ImGui::Spacing();
 	if (ImGui::Button("Quit")){
-//        glutLeaveMainLoop();
         glutDestroyWindow(1);
 	}
 

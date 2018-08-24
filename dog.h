@@ -26,6 +26,10 @@ class Dog {
     double noseX;
     double noseY;
     double noseZ;
+
+    double lookAtX;
+    double lookAtY;
+    double lookAtZ;
     bool turnRight;
     bool turnLeft;
     int rotate;
@@ -104,6 +108,10 @@ public:
     double getNoseX();
     double getNoseY();
     double getNoseZ();
+
+    double getLookAtX();
+    double getLookAtY();
+    double getLookAtZ();
 
     double getRotate();
 };

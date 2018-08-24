@@ -24,6 +24,9 @@ Dog::Dog() {
     x = 0;
     y = 0;
     z = 0;
+    lookAtX = 0;
+    lookAtY = 0.4;
+    lookAtZ = 0;
 }
 
 void Dog::draw(){
@@ -34,10 +37,14 @@ void Dog::draw(){
     if (walk){
         x += 0.01*POSITIONS[currentPosition][0];
         z +=  0.01*POSITIONS[currentPosition][2];
+        lookAtX +=0.01*POSITIONS[currentPosition][0];
+        lookAtZ +=0.01*POSITIONS[currentPosition][2];
 
         if (isBlocked()){
             x -= 0.01*POSITIONS[currentPosition][0];
             z -=  0.01*POSITIONS[currentPosition][2];
+            lookAtX -=0.01*POSITIONS[currentPosition][0];
+            lookAtZ -=0.01*POSITIONS[currentPosition][2];
         }
     }
     if (turnRight){
@@ -273,7 +280,7 @@ bool Dog::getTurnLeft(){
 }
 
 double Dog::getNoseX(){
-    return noseX-x;
+    return -noseX+x;
 }
 
 double Dog::getNoseY(){
@@ -281,9 +288,20 @@ double Dog::getNoseY(){
 }
 
 double Dog::getNoseZ(){
-    return noseZ-z;
+    return -noseZ+z;
 }
 
 double Dog::getRotate() {
     return rotate;
+}
+
+double Dog::getLookAtX(){
+    return lookAtX;
+}
+double Dog::getLookAtY(){
+    return lookAtY;
+}
+
+double Dog::getLookAtZ(){
+    return lookAtZ;
 }
