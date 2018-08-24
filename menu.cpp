@@ -54,17 +54,33 @@ bool Menu::getShowDogEyes(){
 	return show_dog_eyes;
 }
 
-void Menu::draw(Dog* dog) {
+void Menu::draw(Dog* dog, Window* window) {
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplFreeGLUT_NewFrame();
 
 	static float f = 0.0f;
 	ImGui::Begin("Scene Control Panel", &show_another_window);
 
-	// Dog options
 
     ImGui::Spacing();
     ImGui::Text("Options");
+
+	ImGui::Spacing();
+	ImGui::Text("adjust ambient light");
+	ImGui::Spacing();
+	if (ImGui::Button("window up")){
+		window->setY(window->getY() + 0.1);
+	}
+	if (ImGui::Button("window down")){
+		window->setY(window->getY() - 0.1);
+	}
+	if (ImGui::Button("window left")){
+		window->setZ(window->getZ() + 0.1);
+	}
+	if (ImGui::Button("window right")){
+		window->setZ(window->getZ() - 0.1);
+	}
+
 
 	ImGui::Spacing();
 	ImGui::Text("Dog Options");

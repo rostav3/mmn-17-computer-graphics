@@ -118,7 +118,7 @@ void displayFun(){
     bowl.draw();
     lamp.draw();
     window.draw();
-	menu.draw(&dog);
+	menu.draw(&dog, &window);
 
 	if ((isDogPosition != menu.getShowDogEyes()) || ((isDogPosition) && (dog.getWalk() || dog.getHeadRightAndLeft() || dog.getHeadUpAndDown()))){
         isDogPosition = menu.getShowDogEyes();
@@ -130,7 +130,7 @@ void displayFun(){
         prevCameraRotate = dog.getRotate();
     }
     glutSwapBuffers();
-    glutPostRedisplay(); // TODO: move this to upon interaction
+    glutPostRedisplay();
 }
 
 
@@ -159,19 +159,6 @@ void keyboardFun(unsigned char key, int x, int y) {
         case 'q':
             glRotatef(-5.0f, 0.0f, 0.0f, 1.0f);
             break;
-        case 'g':
-            window.setZ(window.getZ() +0.1);
-            break;
-        case 'y':
-            window.setY(window.getY() +0.1);
-            break;
-        case 'h':
-            window.setY(window.getY() -0.1);
-            break;
-        case 'j':
-            window.setZ(window.getZ() -0.1);
-            break;
-
         case '=':
             glScalef(1.1f, 1.1f, 1.1f);
             break;
