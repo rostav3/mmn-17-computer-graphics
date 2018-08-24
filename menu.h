@@ -1,7 +1,9 @@
-//
-// Created by stav on 22/08/18.
-//
+/*----------------------------------------------------------------------------------------------------------------------
+ * This class represent the menu.
+ * Author: Roman Smirnov 312914443, Stav Rockah 307900878
+ * -------------------------------------------------------------------------------------------------------------------*/
 
+ // includes
 #include "dog.h"
 #include "window.h"
 
@@ -17,6 +19,5 @@ public:
 	void keyboard(int key, int x, int y);
 	bool getShowDogEyes();
 };
-
 
 #endif //MMN_17_COMPUTER_GRAPHICS_MENU_H

@@ -1,6 +1,9 @@
-//
-// Created by Roman Smirnov on 22/08/2018.
-//
+/*----------------------------------------------------------------------------------------------------------------------
+ * This class represent the menu.
+ * Author: Roman Smirnov 312914443, Stav Rockah 307900878
+ * -------------------------------------------------------------------------------------------------------------------*/
+
+// includes
 #include <GL/glut.h>
 #include "menu.h"
 #include "imgui/imgui.h"
@@ -8,32 +11,33 @@
 #include "imgui/imgui_impl_opengl2.h"
 #include <cstdlib>
 
-static bool show_another_window = false;
+// all the booleans connect to each gui element.
+static bool show_another_window;
 static bool show_walk;
 static bool show_turn_right;
 static bool show_turn_left;
-
 static bool show_move_back_left;
 static bool show_move_back_right;
 static bool show_move_top_left;
 static bool show_move_top_right;
-
 static bool show_head_up_and_down;
 static bool show_head_right_and_left;
-
 static bool show_tail_up_and_down;
 static bool show_tail_right_and_left;
-
 static bool show_dog_eyes;
 
-
+/*----------------------------------------------------------------------------------------------------------------------
+ * This method define the setup
+ * -------------------------------------------------------------------------------------------------------------------*/
 void Menu::setup(){
 	// Setup ImGui binding
 	ImGui::CreateContext();
 	ImGui_ImplFreeGLUT_Init();
 	ImGui_ImplFreeGLUT_InstallFuncs();
 	ImGui_ImplOpenGL2_Init();
-	ImGui::StyleColorsDark(); // Setup style
+
+	// Setup style
+	ImGui::StyleColorsDark();
 }
 
 void Menu::reshape(int w, int h) {
@@ -50,10 +54,9 @@ void Menu::cleanup(){
 	ImGui::DestroyContext();
 }
 
-bool Menu::getShowDogEyes(){
-	return show_dog_eyes;
-}
-
+/*----------------------------------------------------------------------------------------------------------------------
+ * This method handle the draw of the menu include all elements.
+ * -------------------------------------------------------------------------------------------------------------------*/
 void Menu::draw(Dog* dog, Window* window) {
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplFreeGLUT_NewFrame();
@@ -61,7 +64,7 @@ void Menu::draw(Dog* dog, Window* window) {
 	static float f = 0.0f;
 	ImGui::Begin("Scene Control Panel", &show_another_window);
 
-
+	// window options
     ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::Text("adjust ambient light");
@@ -79,6 +82,7 @@ void Menu::draw(Dog* dog, Window* window) {
 		window->setZ(window->getZ() - 0.1);
 	}
 
+	// dog general options
 	ImGui::Spacing();
 	ImGui::Spacing();
 	ImGui::Text("Dog Options");
@@ -147,6 +151,7 @@ void Menu::draw(Dog* dog, Window* window) {
     }
 
 
+    // quit
     ImGui::Spacing();
 	ImGui::Spacing();
 	if (ImGui::Button("Quit")){
@@ -159,3 +164,11 @@ void Menu::draw(Dog* dog, Window* window) {
 
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 }
+
+/*----------------------------------------------------------------------------------------------------------------------
+ * get method
+ * -------------------------------------------------------------------------------------------------------------------*/
+bool Menu::getShowDogEyes(){
+	return show_dog_eyes;
+}
+

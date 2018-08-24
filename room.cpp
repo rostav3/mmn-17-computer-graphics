@@ -1,7 +1,9 @@
-//
-// Created by stav on 22/08/18.
-//
+/*----------------------------------------------------------------------------------------------------------------------
+ * This class represent the room walls.
+ * Author: Roman Smirnov 312914443, Stav Rockah 307900878
+ * -------------------------------------------------------------------------------------------------------------------*/
 
+// includes
 #include "room.h"
 #include <GL/glut.h>
 
@@ -10,11 +12,10 @@ static GLfloat mat_diffuse[] = {0.5f,0.5f,0.5f,1.0f};
 static GLfloat mat_specular[] = {1.0f,1.0f,1.0f,1.0f};
 static GLfloat mat_shininess[] = {50.0f};
 
+/*----------------------------------------------------------------------------------------------------------------------
+ * This method draw the walls.
+ * -------------------------------------------------------------------------------------------------------------------*/
 void Room::draw(){
-//    glEnable(GL_TEXTURE_2D);
-//    glDisable(GL_TEXTURE_2D);
-
-
     glMaterialfv(GL_FRONT,GL_AMBIENT,mat_ambient);
     glMaterialfv(GL_FRONT,GL_DIFFUSE,mat_diffuse);
     glMaterialfv(GL_FRONT,GL_SPECULAR,mat_specular);

@@ -1,7 +1,9 @@
-//
-// Created by stav on 22/08/18.
-//
+/*----------------------------------------------------------------------------------------------------------------------
+ * This class represent the floor.
+ * Author: Roman Smirnov 312914443, Stav Rockah 307900878
+ * -------------------------------------------------------------------------------------------------------------------*/
 
+ //  includes
 #include "floor.h"
 #include <GL/glut.h>
 
@@ -10,6 +12,9 @@ static constexpr GLfloat mat_diffuse[] = {0.5f,0.5f,0.5f,1.0f};
 static constexpr GLfloat mat_specular[] = {1.0f,1.0f,1.0f,1.0f};
 static constexpr GLfloat mat_shininess[] = {10.0f};
 
+/*----------------------------------------------------------------------------------------------------------------------
+ * This method draw the floor with shine and texture
+ * -------------------------------------------------------------------------------------------------------------------*/
 void Floor::draw(){
     glMaterialfv(GL_FRONT,GL_AMBIENT,mat_ambient);
     glMaterialfv(GL_FRONT,GL_DIFFUSE,mat_diffuse);

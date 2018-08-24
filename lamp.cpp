@@ -1,6 +1,9 @@
-//
-// Created by stav on 22/08/18.
-//
+/*----------------------------------------------------------------------------------------------------------------------
+ * This class represent the lamp.
+ * Author: Roman Smirnov 312914443, Stav Rockah 307900878
+ * -------------------------------------------------------------------------------------------------------------------*/
+
+ // includes
 #include <GL/glut.h>
 #include "lamp.h"
 
@@ -10,6 +13,9 @@ static GLfloat light0Specular[] = {0.9f,1.0f,0.8f,1.0f};
 static GLfloat light0Position[] = {0.0, 0.0, 0.0, 1.0};
 
 
+/*----------------------------------------------------------------------------------------------------------------------
+ * This method initialize the lamp light.
+ * -------------------------------------------------------------------------------------------------------------------*/
 void Lamp::init() {
     glEnable(GL_LIGHT0);
     glLightfv(GL_LIGHT0,GL_AMBIENT, light0Ambient);
@@ -20,6 +26,9 @@ void Lamp::init() {
     glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.1);
 }
 
+/*----------------------------------------------------------------------------------------------------------------------
+ * This method handle the draw of the lamp
+ * -------------------------------------------------------------------------------------------------------------------*/
 void Lamp::draw() {
 
     // lamp base
@@ -30,7 +39,6 @@ void Lamp::draw() {
     glRotatef(-90.0f, 1.0, 0.0, 0.0);
     glutSolidCone(0.5,0.5,50,50);
     glPopMatrix();
-
 
     // lamp pole
     glPushMatrix();

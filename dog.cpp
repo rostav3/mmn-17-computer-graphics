@@ -1,63 +1,76 @@
-//
-// Created by stav on 22/08/18.
-//
+/*----------------------------------------------------------------------------------------------------------------------
+ * This class represent the dog.
+ * Author: Roman Smirnov 312914443, Stav Rockah 307900878
+ * -------------------------------------------------------------------------------------------------------------------*/
 
 // includes
 #include <GL/glut.h>
 #include <cmath>
 #include "dog.h"
 
-
+/*----------------------------------------------------------------------------------------------------------------------
+ * The constructor of the class, initalize all the parameters.
+ * -------------------------------------------------------------------------------------------------------------------*/
 Dog::Dog() {
     animationCounter = 0;
     ticksCounter = 0;
-    tailUpAndDown = false;
-    tailRightAndLeft = false;
-    headRightAndLeft = false;
-    headUpAndDown = false;
-    turnRight = false;
-    turnLeft = false;
     rotate = 0;
-    currentPosition = 0;
-    walk = false;
+    currentDirectionNum = 0;
     x = 0;
     y = 0;
     z = 0;
     lookAtX = 0;
     lookAtY = 0.4;
     lookAtZ = 0;
+    tailUpAndDown = false;
+    tailRightAndLeft = false;
+    headRightAndLeft = false;
+    headUpAndDown = false;
+    turnRight = false;
+    turnLeft = false;
+    walk = false;
 }
 
+/*----------------------------------------------------------------------------------------------------------------------
+ * This method handle the draw of the dog (contain all the animations)
+ * -------------------------------------------------------------------------------------------------------------------*/
 void Dog::draw(){
+    // ticks for all animations
     ticksCounter++;
     animationCounter += (ticksCounter%6 == 0) ? 1 : 0;
 
     glColor3f(0.8,0.5,0.2);
 
+    // if dog is walk, forword in the current direction
     if (walk){
-        x += 0.01*POSITIONS[currentPosition][0];
-        z +=  0.01*POSITIONS[currentPosition][2];
+        x += 0.01*DIRECTIONS[currentDirectionNum][0];
+        z +=  0.01*DIRECTIONS[currentDirectionNum][2];
 
+        // remove the forword in case of blocked
         if (isBlocked()) {
-            x -= 0.01 * POSITIONS[currentPosition][0];
-            z -= 0.01 * POSITIONS[currentPosition][2];
+            x -= 0.01 * DIRECTIONS[currentDirectionNum][0];
+            z -= 0.01 * DIRECTIONS[currentDirectionNum][2];
         } else {
-            lookAtX +=0.01*POSITIONS[currentPosition][0];
-            lookAtZ +=0.01*POSITIONS[currentPosition][2];
+            // add the forword to the look position too.
+            lookAtX +=0.01*DIRECTIONS[currentDirectionNum][0];
+            lookAtZ +=0.01*DIRECTIONS[currentDirectionNum][2];
         }
     }
+
+    // handle rotate right
     if (turnRight){
         rotate -= 5;
         if (rotate % 90 == 0){
-            currentPosition =  currentPosition == 3 ? 0 : currentPosition + 1;
+            currentDirectionNum =  currentDirectionNum == 3 ? 0 : currentDirectionNum + 1;
             turnRight = false;
         }
     }
 
+    // handle rotate left
     if (turnLeft) {
         rotate += 5;
         if (rotate % 90 == 0) {
-            currentPosition =  currentPosition == 0 ? 3 : currentPosition - 1;
+            currentDirectionNum =  currentDirectionNum == 0 ? 3 : currentDirectionNum - 1;
             turnLeft = false;
         }
     }
@@ -177,6 +190,10 @@ void Dog::draw(){
     glPopMatrix();
 }
 
+
+/*----------------------------------------------------------------------------------------------------------------------
+ * This method return if the dog is blocked by any item/wall or not.
+ * -------------------------------------------------------------------------------------------------------------------*/
 bool Dog::isBlocked(){
     for (int i = 0; i < NUM_OBJECTS; ++i) {
         if (OBJECTS_SQUARES[i].isInBlock(x,z))
@@ -184,6 +201,11 @@ bool Dog::isBlocked(){
     }
     return false;
 }
+
+/*----------------------------------------------------------------------------------------------------------------------
+ * All sets of needed properties
+ * -------------------------------------------------------------------------------------------------------------------*/
+
 void Dog::setTailUpAndDown(bool val){
     tailUpAndDown = val;
 }
@@ -199,6 +221,7 @@ void Dog::setHeadUpAndDown(bool val){
 void Dog::setHeadRightAndLeft(bool val) {
     headRightAndLeft = val;
 }
+
 void Dog::setMoveTopRightLeg(bool val){
     moveTopRightLeg = val;
 }
@@ -221,17 +244,19 @@ void Dog::setWalk(bool val){
     moveTopRightLeg = val;
     moveBackRightLeg = val;
     moveBackLeftLeg = val;
-
 }
 
-
-bool Dog::getTailUpAndDown(){
-    return tailUpAndDown;
+void Dog::setTurnRight(bool val){
+    turnRight = val;
 }
 
-bool Dog::getTailRightAndLeft(){
-    return tailRightAndLeft;
+void Dog::setTurnLeft(bool val){
+    turnLeft = val;
 }
+
+/*----------------------------------------------------------------------------------------------------------------------
+ * All gets of needed properties
+ * -------------------------------------------------------------------------------------------------------------------*/
 
 bool Dog::getHeadUpAndDown(){
     return headUpAndDown;
@@ -241,36 +266,12 @@ bool Dog::getHeadRightAndLeft(){
     return headRightAndLeft;
 }
 
-bool Dog::getMoveTopRightLeg(){
-    return moveTopRightLeg;
-}
-
-bool Dog::getMoveTopLeftLeg(){
-    return moveTopLeftLeg;
-}
-
-bool Dog::getMoveBackRightLeg(){
-    return moveBackRightLeg;
-}
-
-bool Dog::getMoveBackLeftLeg(){
-    return moveBackLeftLeg;
-}
-
 bool Dog::getWalk(){
     return walk;
 }
 
-void Dog::setTurnRight(bool val){
-    turnRight = val;
-}
-
 bool Dog::getTurnRight(){
     return turnRight;
-}
-
-void Dog::setTurnLeft(bool val){
-    turnLeft = val;
 }
 
 bool Dog::getTurnLeft(){
