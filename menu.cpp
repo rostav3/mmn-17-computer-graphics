@@ -85,17 +85,19 @@ void Menu::draw(Dog* dog) {
 	ImGui::Spacing();
 	ImGui::Text("Dog legs");
 
-	ImGui::Checkbox("move back left leg", &show_move_back_left);
-	dog->setMoveBackLeftLeg(show_move_back_left);
+	if (!show_walk){
+		ImGui::Checkbox("move back left leg", &show_move_back_left);
+		dog->setMoveBackLeftLeg(show_move_back_left);
 
-    ImGui::Checkbox("move front left leg", &show_move_top_left);
-    dog->setMoveTopLeftLeg(show_move_top_left);
+		ImGui::Checkbox("move front left leg", &show_move_top_left);
+		dog->setMoveTopLeftLeg(show_move_top_left);
 
-    ImGui::Checkbox("move back right leg", &show_move_back_right);
-    dog->setMoveBackRightLeg(show_move_back_right);
+		ImGui::Checkbox("move back right leg", &show_move_back_right);
+		dog->setMoveBackRightLeg(show_move_back_right);
 
-    ImGui::Checkbox("move front right leg", &show_move_top_right);
-    dog->setMoveTopRightLeg(show_move_top_right);
+		ImGui::Checkbox("move front right leg", &show_move_top_right);
+		dog->setMoveTopRightLeg(show_move_top_right);
+	}
 
     // Dog head
     ImGui::Spacing();
@@ -125,7 +127,7 @@ void Menu::draw(Dog* dog) {
         system ("xdg-open ../resources/help.pdf");
     }
 
-    
+
     ImGui::Spacing();
 	if (ImGui::Button("Quit")){
         glutDestroyWindow(1);

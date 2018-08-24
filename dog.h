@@ -35,7 +35,6 @@ class Dog {
     int rotate;
     int currentPosition;
 
-
     // misc
     static constexpr int NUM_POSITIONS = 4;
     static constexpr int NUM_COORDINATES = 3;

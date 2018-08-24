@@ -20,7 +20,6 @@ Dog::Dog() {
     rotate = 0;
     currentPosition = 0;
     walk = false;
-
     x = 0;
     y = 0;
     z = 0;
@@ -34,17 +33,17 @@ void Dog::draw(){
     animationCounter += (ticksCounter%6 == 0) ? 1 : 0;
 
     glColor3f(0.8,0.5,0.2);
+
     if (walk){
         x += 0.01*POSITIONS[currentPosition][0];
         z +=  0.01*POSITIONS[currentPosition][2];
-        lookAtX +=0.01*POSITIONS[currentPosition][0];
-        lookAtZ +=0.01*POSITIONS[currentPosition][2];
 
-        if (isBlocked()){
-            x -= 0.01*POSITIONS[currentPosition][0];
-            z -=  0.01*POSITIONS[currentPosition][2];
-            lookAtX -=0.01*POSITIONS[currentPosition][0];
-            lookAtZ -=0.01*POSITIONS[currentPosition][2];
+        if (isBlocked()) {
+            x -= 0.01 * POSITIONS[currentPosition][0];
+            z -= 0.01 * POSITIONS[currentPosition][2];
+        } else {
+            lookAtX +=0.01*POSITIONS[currentPosition][0];
+            lookAtZ +=0.01*POSITIONS[currentPosition][2];
         }
     }
     if (turnRight){
@@ -63,13 +62,12 @@ void Dog::draw(){
         }
     }
 
-
     glPushMatrix();
     glTranslated(x,y,z);
     glRotated(rotate, 0, 1, 0);
 
     glPushMatrix();
-    glTranslated(-0.3,0,-0.3);
+    glTranslated(-0.35,0,-0.35);
 
     // tail
     glPushMatrix();

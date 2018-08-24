@@ -44,7 +44,7 @@ static Window window;
 static Floor floor;
 static Menu menu;
 
-static double prevCameraRotate = 20;
+static double prevCameraRotate = 0;
 static bool isDogPosition = false;
 
 GLuint loadBMP_custom(const char * imagepath){
@@ -122,6 +122,7 @@ void displayFun(){
 	menu.draw(&dog);
 
 	if ((isDogPosition != menu.getShowDogEyes()) || ((isDogPosition) && (dog.getWalk() || dog.getHeadRightAndLeft() || dog.getHeadUpAndDown()))){
+//        prevCameraRotate = 20;
         isDogPosition = menu.getShowDogEyes();
         setCameraView();
 	}
@@ -137,6 +138,9 @@ void displayFun(){
 
 
 void keyboardFun(unsigned char key, int x, int y) {
+    if (dog.getWalk()){
+        return;
+    }
     menu.keyboard(key, x, y);
     switch (key) {
         case 'w':
