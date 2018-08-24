@@ -200,7 +200,7 @@ int main(int argc, char **argv) {
     glutKeyboardFunc(keyboardFun);
 
 
-    GLuint image = loadBMP_custom("/home/stav/CLionProjects/mmn-17-computer-graphics/resources/Grass01.bmp");
+    GLuint image = loadBMP_custom("../resources/floor_tiles.bmp");
 
 
     initialSetup();
