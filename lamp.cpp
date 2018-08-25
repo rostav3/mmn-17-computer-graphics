@@ -14,7 +14,7 @@ static GLfloat light0Position[] = {0.0, 0.0, 0.0, 1.0};
 static GLfloat materialAmbient[] = {0.33, 0.33, 0.33, 1.0};
 static GLfloat materialDiffuse[] = {0.78, 0.78, 0.78, 1.0};
 static GLfloat materialSpecular[] = {0.99, 0.99, 0.99, 1.0};
-static GLfloat materialShininess = 27.8;
+static GLfloat materialShininess = 4.0f;
 
 
 

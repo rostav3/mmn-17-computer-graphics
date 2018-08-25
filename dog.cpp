@@ -8,6 +8,16 @@
 #include <cmath>
 #include "dog.h"
 
+static constexpr GLfloat materialAmbient[] = {0.0f, 0.0f, 0.0f, 1.0f};
+static constexpr GLfloat materialDiffuse[] = {0.0f, 0.0f, 0.0f, 1.0f};
+static constexpr GLfloat materialSpecular[] = {0.0f, 0.0f, 0.0f, 1.0f};
+static constexpr GLfloat materialShininess = 128.0f;
+
+static constexpr GLfloat eyeMaterialAmbient[] = {1.0f, 1.0f, 1.0f, 1.0f};
+static constexpr GLfloat eyeMaterialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
+static constexpr GLfloat eyeMaterialSpecular[] = {1.0f, 1.0f, 1.0f, 1.0f};
+static constexpr GLfloat eyeMaterialShininess = 3.0f;
+
 /*----------------------------------------------------------------------------------------------------------------------
  * The constructor of the class, initalize all the parameters.
  * -------------------------------------------------------------------------------------------------------------------*/
@@ -38,6 +48,11 @@ void Dog::draw(){
     // ticks for all animations
     ticksCounter++;
     animationCounter += (ticksCounter%6 == 0) ? 1 : 0;
+
+    glMaterialfv(GL_FRONT, GL_AMBIENT, materialAmbient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, materialDiffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, materialSpecular);
+    glMaterialf(GL_FRONT, GL_SHININESS, materialShininess);
 
     glColor3f(0.8,0.5,0.2);
 
@@ -170,6 +185,12 @@ void Dog::draw(){
 
 
     glColor3f(1,1,1);
+
+    // eyes
+    glMaterialfv(GL_FRONT, GL_AMBIENT, eyeMaterialAmbient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, eyeMaterialDiffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, eyeMaterialSpecular);
+    glMaterialf(GL_FRONT, GL_SHININESS, eyeMaterialShininess);
 
     // eyes
     glPushMatrix();

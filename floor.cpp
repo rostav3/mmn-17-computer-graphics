@@ -54,7 +54,6 @@ void Floor::draw() {
 //	glEnable(GL_TEXTURE_2D);
 //	glActiveTexture(GL_TEXTURE0);
 
-//	glEnable(GL_COLOR_MATERIAL);
 	glMaterialfv(GL_FRONT, GL_AMBIENT, materialAmbient);
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, materialDiffuse);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, materialSpecular);
