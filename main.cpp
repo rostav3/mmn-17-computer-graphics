@@ -242,8 +242,9 @@ void initialSetup(){
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 
-
+	menu.setup();
 	lamp.init();
+	floor.init();
 	window.init();
 
 	setPerspectiveProjection((GLfloat) glutGet(GLUT_WINDOW_WIDTH) / (GLfloat) glutGet(GLUT_WINDOW_HEIGHT));
@@ -264,11 +265,10 @@ int main(int argc, char **argv) {
 	glutReshapeFunc(reshapeFun);
 	glutKeyboardFunc(keyboardFun);
 
-	// load floor texture
-	GLuint image = loadBMP("../resources/floor_tiles.bmp");
 
 	initialSetup();
-	menu.setup();
+
+
 	glutMainLoop();
 	menu.cleanup();
 	return 0;

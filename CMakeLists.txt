@@ -10,6 +10,6 @@ find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 
 add_executable(mmn17 main.cpp main.cpp dog.cpp dog.h items.cpp items.h room.cpp room.h lamp.cpp lamp.h menu.h
-        menu.cpp window.h window.cpp floor.h floor.cpp blockedSquare.cpp blockedSquare.h)
+        menu.cpp window.h window.cpp floor.h floor.cpp blockedSquare.cpp blockedSquare.h stb_image.cpp stb_image.h)
 
 target_link_libraries(mmn17 ${OPENGL_LIBRARIES} ${GLUT_LIBRARY} imgui)

@@ -147,7 +147,7 @@ void Menu::draw(Dog* dog, Window* window) {
 	ImGui::Spacing();
 	ImGui::Spacing();
 	if (ImGui::Button("Help")){
-        system ("xdg-open ../resources/help.pdf");
+        system ("xdg-open ./resources/help.pdf");
     }
 
 
